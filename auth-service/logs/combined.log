@@ -1350,3 +1350,383 @@
   level: 'info',
   message: 'GET /health'
 }
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:24:49:2449',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:25:19:2519',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:25:49:2549',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:26:19:2619',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:26:49:2649',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:27:19:2719',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:27:50:2750',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:28:20:2820',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:28:50:2850',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:29:20:2920',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:29:50:2950',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:30:20:3020',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:30:50:3050',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:31:20:3120',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:31:50:3150',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:32:20:3220',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:32:50:3250',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:33:20:3320',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:33:50:3350',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:34:20:3420',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:34:51:3451',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:35:21:3521',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:35:51:3551',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:36:21:3621',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:36:51:3651',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:37:21:3721',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:37:51:3751',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:38:21:3821',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:38:51:3851',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:39:21:3921',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:39:51:3951',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:40:21:4021',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:40:51:4051',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:41:21:4121',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:41:51:4151',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:42:21:4221',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:42:52:4252',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:43:22:4322',
+  level: 'info',
+  message: 'GET /health'
+}

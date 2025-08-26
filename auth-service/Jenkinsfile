@@ -1,0 +1,56 @@
+pipeline {
+  agent { label 'windows-docker' }
+
+  environment {
+    REGISTRY = "ghcr.io"
+    OWNER    = "wuuanito"
+    SERVICE  = "auth-service"
+    IMAGE    = "${REGISTRY}/${OWNER}/${SERVICE}"
+    TAG      = "${env.BUILD_NUMBER}"  // inmutable; usa 'latest' si lo prefieres
+  }
+
+  triggers {
+    // Activa el webhook GitHub en el job
+    // o usa pollSCM si no puedes exponer 8080
+    // pollSCM('H/5 * * * *')
+  }
+
+  stages {
+    stage('Login GHCR') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'REGISTRY_CREDS', usernameVariable: 'REG_USER', passwordVariable: 'REG_PWD')]) {
+          bat """
+          docker logout %REGISTRY% 2>nul
+          echo %REG_PWD% | docker login %REGISTRY% -u %REG_USER% --password-stdin
+          """
+        }
+      }
+    }
+
+    stage('Build') {
+      steps {
+        bat """
+        docker build -t %IMAGE%:%TAG% -t %IMAGE%:latest .
+        """
+      }
+    }
+
+    stage('Push') {
+      steps {
+        bat """
+        docker push %IMAGE%:%TAG%
+        docker push %IMAGE%:latest
+        """
+      }
+    }
+
+    stage('Deploy (arquitectura-deploy)') {
+      steps {
+        build job: 'arquitectura-deploy', parameters: [
+          string(name: 'SERVICE', value: "${env.SERVICE}"),
+          string(name: 'TAG',     value: "${env.TAG}")   // o 'latest' si despliegas latest
+        ]
+      }
+    }
+  }
+}
