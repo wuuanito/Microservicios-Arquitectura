@@ -1,54 +1,17 @@
 services:
   api-gateway:
-    image: your-registry/yourorg/api-gateway:${API_GATEWAY_TAG:-latest}
+    image: ghcr.io/wuuanito/api-gateway:${API_GATEWAY_TAG:-latest}
     container_name: api-gateway
     ports: ["3000:3000"]
-    environment:
-      NODE_ENV: production
-      PORT: 3000
-      AUTH_SERVICE_URL: http://auth-service:3001
-      USER_SERVICE_URL: http://user-service:3002
-      PRODUCT_SERVICE_URL: http://product-service:3003
-      ORDER_SERVICE_URL: http://order-service:3004
-      NOTIFICATION_SERVICE_URL: http://notification-service:3005
-      LOG_LEVEL: info
-      CORS_ORIGIN: http://localhost:3000
-      RATE_LIMIT_WINDOW_MS: 900000
-      RATE_LIMIT_MAX_REQUESTS: 1000
-    networks: [microservices-network]
-    depends_on:
-      - mongo
-      - auth-service
+    depends_on: [mongo, auth-service]
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
 
   auth-service:
-    image: your-registry/yourorg/auth-service:${AUTH_TAG:-latest}
+    image: ghcr.io/wuuanito/auth-service:${AUTH_TAG:-latest}
     container_name: auth-service
     ports: ["3001:3001"]
-    environment:
-      NODE_ENV: production
-      MONGODB_URI: mongodb://mongo:27017/auth
-      PORT: 3001
-      LOG_LEVEL: info
-      RATE_LIMIT_WINDOW_MS: 900000
-      RATE_LIMIT_MAX_REQUESTS: 100
-      EMAIL_VERIFICATION_REQUIRED: "false"
-      # JWT_* -> pásalos como secretos/variables en Jenkins, no aquí en claro
-    networks: [microservices-network]
     depends_on: [mongo]
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
 
   mongo:
     image: mongo:6.0
@@ -56,18 +19,6 @@ services:
     ports: ["27017:27017"]
     volumes:
       - mongo-data:/data/db
-      - ./mongo-init:/docker-entrypoint-initdb.d
-    networks: [microservices-network]
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
 volumes:
   mongo-data:
-
-networks:
-  microservices-network:
-    driver: bridge
