@@ -1,0 +1,57 @@
+{
+  error: TypeError: logger.error is not a function
+      at C:\Users\Juan\Desktop\Microservicios-Arquitectura\auth-service\src\index.js:106:10
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5),
+  level: 'error',
+  message: 'unhandledRejection: logger.error is not a function\n' +
+    'TypeError: logger.error is not a function\n' +
+    '    at C:\\Users\\Juan\\Desktop\\Microservicios-Arquitectura\\auth-service\\src\\index.js:106:10\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  stack: 'TypeError: logger.error is not a function\n' +
+    '    at C:\\Users\\Juan\\Desktop\\Microservicios-Arquitectura\\auth-service\\src\\index.js:106:10\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  rejection: true,
+  date: 'Tue Aug 26 2025 12:56:18 GMT+0200 (hora de verano de Europa central)',
+  process: {
+    pid: 18792,
+    uid: null,
+    gid: null,
+    cwd: 'C:\\Users\\Juan\\Desktop\\Microservicios-Arquitectura\\auth-service',
+    execPath: 'C:\\Program Files\\nodejs\\node.exe',
+    version: 'v22.18.0',
+    argv: [
+      'C:\\Program Files\\nodejs\\node.exe',
+      'C:\\Users\\Juan\\Desktop\\Microservicios-Arquitectura\\auth-service\\src\\index.js'
+    ],
+    memoryUsage: {
+      rss: 90877952,
+      heapTotal: 61288448,
+      heapUsed: 24427008,
+      external: 20598186,
+      arrayBuffers: 18264951
+    }
+  },
+  os: { loadavg: [ 0, 0, 0 ], uptime: 14666.921 },
+  trace: [
+    {
+      column: 10,
+      file: 'C:\\Users\\Juan\\Desktop\\Microservicios-Arquitectura\\auth-service\\src\\index.js',
+      function: null,
+      line: 106,
+      method: null,
+      native: false
+    },
+    {
+      column: 5,
+      file: 'node:internal/process/task_queues',
+      function: 'process.processTicksAndRejections',
+      line: 105,
+      method: 'processTicksAndRejections',
+      native: false
+    }
+  ],
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 12:56:18:5618'
+}

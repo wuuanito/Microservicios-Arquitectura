@@ -7,11 +7,11 @@ module.exports = {
       description: 'Servicio de autenticación y autorización',
       changeOrigin: true,
       pathRewrite: {
-        '^/api/auth/v1': '' // Remueve el prefijo antes de enviar al microservicio
+        '^/api/auth/v1': '/api/auth' // Reemplaza el prefijo con la ruta del auth-service
       },
-      timeout: 30000,
-      retries: 3,
-      healthCheck: '/health'
+      timeout: 60000,
+      retries: 3
+      // healthCheck: '/health' // Disabled temporarily
     },
     {
       path: '/api/users/v1',
@@ -21,9 +21,9 @@ module.exports = {
       pathRewrite: {
         '^/api/users/v1': ''
       },
-      timeout: 30000,
-      retries: 3,
-      healthCheck: '/health'
+      timeout: 60000,
+      retries: 3
+      // healthCheck: '/health' // Disabled temporarily
     },
     {
       path: '/api/products/v1',
@@ -33,9 +33,9 @@ module.exports = {
       pathRewrite: {
         '^/api/products/v1': ''
       },
-      timeout: 30000,
-      retries: 3,
-      healthCheck: '/health'
+      timeout: 60000,
+      retries: 3
+      // healthCheck: '/health' // Disabled temporarily
     },
     {
       path: '/api/orders/v1',
@@ -45,9 +45,9 @@ module.exports = {
       pathRewrite: {
         '^/api/orders/v1': ''
       },
-      timeout: 30000,
-      retries: 3,
-      healthCheck: '/health'
+      timeout: 60000,
+      retries: 3
+      // healthCheck: '/health' // Disabled temporarily
     },
     {
       path: '/api/notifications/v1',
@@ -57,9 +57,9 @@ module.exports = {
       pathRewrite: {
         '^/api/notifications/v1': ''
       },
-      timeout: 30000,
-      retries: 3,
-      healthCheck: '/health'
+      timeout: 60000,
+      retries: 3
+      // healthCheck: '/health' // Disabled temporarily
     }
   ],
   

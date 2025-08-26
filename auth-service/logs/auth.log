@@ -1,0 +1,1212 @@
+{
+  error: TypeError: logger.error is not a function
+      at C:\Users\Juan\Desktop\Microservicios-Arquitectura\auth-service\src\index.js:106:10
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5),
+  level: 'error',
+  message: 'unhandledRejection: logger.error is not a function\n' +
+    'TypeError: logger.error is not a function\n' +
+    '    at C:\\Users\\Juan\\Desktop\\Microservicios-Arquitectura\\auth-service\\src\\index.js:106:10\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  stack: 'TypeError: logger.error is not a function\n' +
+    '    at C:\\Users\\Juan\\Desktop\\Microservicios-Arquitectura\\auth-service\\src\\index.js:106:10\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  rejection: true,
+  date: 'Tue Aug 26 2025 12:56:18 GMT+0200 (hora de verano de Europa central)',
+  process: {
+    pid: 18792,
+    uid: null,
+    gid: null,
+    cwd: 'C:\\Users\\Juan\\Desktop\\Microservicios-Arquitectura\\auth-service',
+    execPath: 'C:\\Program Files\\nodejs\\node.exe',
+    version: 'v22.18.0',
+    argv: [
+      'C:\\Program Files\\nodejs\\node.exe',
+      'C:\\Users\\Juan\\Desktop\\Microservicios-Arquitectura\\auth-service\\src\\index.js'
+    ],
+    memoryUsage: {
+      rss: 90877952,
+      heapTotal: 61288448,
+      heapUsed: 24427008,
+      external: 20598186,
+      arrayBuffers: 18264951
+    }
+  },
+  os: { loadavg: [ 0, 0, 0 ], uptime: 14666.921 },
+  trace: [
+    {
+      column: 10,
+      file: 'C:\\Users\\Juan\\Desktop\\Microservicios-Arquitectura\\auth-service\\src\\index.js',
+      function: null,
+      line: 106,
+      method: null,
+      native: false
+    },
+    {
+      column: 5,
+      file: 'node:internal/process/task_queues',
+      function: 'process.processTicksAndRejections',
+      line: 105,
+      method: 'processTicksAndRejections',
+      native: false
+    }
+  ],
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 12:56:18:5618'
+}
+{
+  message: '✅ Conectado a MongoDB',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 10:56:44:5644'
+}
+{
+  message: '🚀 Auth Service ejecutándose en puerto 3001',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 10:56:44:5644'
+}
+{
+  message: '🌍 Ambiente: development',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 10:56:44:5644'
+}
+{
+  message: '✅ Conectado a MongoDB',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 12:56:46:5646'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 10:56:48:5648',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  message: '🔄 Cerrando servidor...',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 10:57:05:575'
+}
+{
+  message: '✅ Conectado a MongoDB',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 10:57:07:577'
+}
+{
+  message: '🚀 Auth Service ejecutándose en puerto 3001',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 10:57:07:577'
+}
+{
+  message: '🌍 Ambiente: development',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 10:57:07:577'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 10:57:11:5711',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 10:57:41:5741',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.1',
+  userAgent: 'PostmanRuntime/7.45.0',
+  timestamp: '2025-08-26 10:57:46:5746',
+  level: 'info',
+  message: 'POST /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.1',
+  userAgent: 'curl/8.15.0',
+  timestamp: '2025-08-26 10:57:51:5751',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.1',
+  userAgent: 'PostmanRuntime/7.45.0',
+  timestamp: '2025-08-26 10:58:01:581',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 10:58:11:5811',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.1',
+  userAgent: 'PostmanRuntime/7.45.0',
+  timestamp: '2025-08-26 10:58:19:5819',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 10:58:41:5841',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'axios/1.11.0',
+  timestamp: '2025-08-26 10:58:54:5854',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'curl/8.15.0',
+  timestamp: '2025-08-26 10:58:54:5854',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'axios/1.11.0',
+  timestamp: '2025-08-26 10:59:03:593',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 10:59:11:5911',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'axios/1.11.0',
+  timestamp: '2025-08-26 10:59:20:5920',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 10:59:41:5941',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'axios/1.11.0',
+  timestamp: '2025-08-26 11:00:10:010',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:00:12:012',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:00:42:042',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:01:12:112',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'axios/1.11.0',
+  timestamp: '2025-08-26 11:01:15:115',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.1',
+  userAgent: 'curl/8.15.0',
+  timestamp: '2025-08-26 11:01:37:137',
+  level: 'info',
+  message: 'POST /api/auth/register'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  errorLabelSet: Set(0) {},
+  errorResponse: {
+    ok: 0,
+    errmsg: 'command find requires authentication',
+    code: 13,
+    codeName: 'Unauthorized'
+  },
+  ok: 0,
+  code: 13,
+  codeName: 'Unauthorized',
+  level: 'error',
+  message: 'Error en registro: command find requires authentication',
+  stack: 'MongoServerError: command find requires authentication\n' +
+    '    at Connection.sendCommand (/usr/src/app/node_modules/mongodb/lib/cmap/connection.js:305:27)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (/usr/src/app/node_modules/mongodb/lib/cmap/connection.js:333:26)\n' +
+    '    at async Server.command (/usr/src/app/node_modules/mongodb/lib/sdam/server.js:171:29)\n' +
+    '    at async FindOperation.execute (/usr/src/app/node_modules/mongodb/lib/operations/find.js:36:16)\n' +
+    '    at async tryOperation (/usr/src/app/node_modules/mongodb/lib/operations/execute_operation.js:207:20)\n' +
+    '    at async executeOperation (/usr/src/app/node_modules/mongodb/lib/operations/execute_operation.js:75:16)\n' +
+    '    at async FindCursor._initialize (/usr/src/app/node_modules/mongodb/lib/cursor/find_cursor.js:61:26)\n' +
+    '    at async FindCursor.cursorInit (/usr/src/app/node_modules/mongodb/lib/cursor/abstract_cursor.js:632:27)\n' +
+    '    at async FindCursor.fetchBatch (/usr/src/app/node_modules/mongodb/lib/cursor/abstract_cursor.js:666:13)',
+  timestamp: '2025-08-26 11:01:37:137'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:01:42:142',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:02:12:212',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  message: '🔄 Cerrando servidor...',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:02:16:216'
+}
+{
+  message: '✅ Conectado a MongoDB',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:02:18:218'
+}
+{
+  message: '🚀 Auth Service ejecutándose en puerto 3001',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:02:18:218'
+}
+{
+  message: '🌍 Ambiente: development',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:02:18:218'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:02:22:222',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.1',
+  userAgent: 'curl/8.15.0',
+  timestamp: '2025-08-26 11:02:50:250',
+  level: 'info',
+  message: 'POST /api/auth/register'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  errorLabelSet: Set(0) {},
+  errorResponse: {
+    ok: 0,
+    errmsg: 'command find requires authentication',
+    code: 13,
+    codeName: 'Unauthorized'
+  },
+  ok: 0,
+  code: 13,
+  codeName: 'Unauthorized',
+  level: 'error',
+  message: 'Error en registro: command find requires authentication',
+  stack: 'MongoServerError: command find requires authentication\n' +
+    '    at Connection.sendCommand (/usr/src/app/node_modules/mongodb/lib/cmap/connection.js:305:27)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (/usr/src/app/node_modules/mongodb/lib/cmap/connection.js:333:26)\n' +
+    '    at async Server.command (/usr/src/app/node_modules/mongodb/lib/sdam/server.js:171:29)\n' +
+    '    at async FindOperation.execute (/usr/src/app/node_modules/mongodb/lib/operations/find.js:36:16)\n' +
+    '    at async tryOperation (/usr/src/app/node_modules/mongodb/lib/operations/execute_operation.js:207:20)\n' +
+    '    at async executeOperation (/usr/src/app/node_modules/mongodb/lib/operations/execute_operation.js:75:16)\n' +
+    '    at async FindCursor._initialize (/usr/src/app/node_modules/mongodb/lib/cursor/find_cursor.js:61:26)\n' +
+    '    at async FindCursor.cursorInit (/usr/src/app/node_modules/mongodb/lib/cursor/abstract_cursor.js:632:27)\n' +
+    '    at async FindCursor.fetchBatch (/usr/src/app/node_modules/mongodb/lib/cursor/abstract_cursor.js:666:13)',
+  timestamp: '2025-08-26 11:02:50:250'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  message: 'Error capturado: Error interno del servidor',
+  stack: 'Error: Error interno del servidor\n' +
+    '    at createError (/usr/src/app/src/utils/errors.js:12:10)\n' +
+    '    at /usr/src/app/src/routes/auth.js:116:10\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  url: '/api/auth/register',
+  method: 'POST',
+  ip: '::ffff:172.20.0.1',
+  userAgent: 'curl/8.15.0',
+  userId: undefined,
+  timestamp: '2025-08-26 11:02:50:250',
+  level: 'error'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:02:52:252',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  message: '🔄 Cerrando servidor...',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:03:16:316'
+}
+{
+  message: '✅ Conectado a MongoDB',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:03:23:323'
+}
+{
+  message: '🚀 Auth Service ejecutándose en puerto 3001',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:03:23:323'
+}
+{
+  message: '🌍 Ambiente: development',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:03:23:323'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:03:28:328',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.1',
+  userAgent: 'curl/8.15.0',
+  timestamp: '2025-08-26 11:03:39:339',
+  level: 'info',
+  message: 'POST /api/auth/register'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  userId: new ObjectId('68ad948bb3cf88ff94715a44'),
+  ip: '::ffff:172.20.0.1',
+  level: 'info',
+  message: 'Usuario registrado: test@example.com',
+  timestamp: '2025-08-26 11:03:40:340'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'axios/1.11.0',
+  timestamp: '2025-08-26 11:03:52:352',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:03:58:358',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  message: 'Error capturado: request aborted',
+  stack: 'BadRequestError: request aborted\n' +
+    '    at IncomingMessage.onAborted (/usr/src/app/node_modules/raw-body/index.js:245:10)\n' +
+    '    at IncomingMessage.emit (node:events:517:28)\n' +
+    '    at IncomingMessage._destroy (node:_http_incoming:224:10)\n' +
+    '    at _destroy (node:internal/streams/destroy:109:10)\n' +
+    '    at IncomingMessage.destroy (node:internal/streams/destroy:71:5)\n' +
+    '    at abortIncoming (node:_http_server:781:9)\n' +
+    '    at socketOnClose (node:_http_server:775:3)\n' +
+    '    at Socket.emit (node:events:529:35)\n' +
+    '    at TCP.<anonymous> (node:net:350:12)',
+  url: '/register',
+  method: 'POST',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'curl/8.15.0',
+  userId: undefined,
+  timestamp: '2025-08-26 11:04:22:422',
+  level: 'error'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:04:28:428',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'axios/1.11.0',
+  timestamp: '2025-08-26 11:04:32:432',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:04:58:458',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  message: '🔄 Cerrando servidor...',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:05:07:57'
+}
+{
+  message: '✅ Conectado a MongoDB',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:05:10:510'
+}
+{
+  message: '🚀 Auth Service ejecutándose en puerto 3001',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:05:10:510'
+}
+{
+  message: '🌍 Ambiente: development',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:05:10:510'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:05:14:514',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:05:44:544',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'axios/1.11.0',
+  timestamp: '2025-08-26 11:06:11:611',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:06:14:614',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'axios/1.11.0',
+  timestamp: '2025-08-26 11:06:44:644',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:06:44:644',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.1',
+  userAgent: 'curl/8.15.0',
+  timestamp: '2025-08-26 11:07:02:72',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  userId: new ObjectId('68ad948bb3cf88ff94715a44'),
+  ip: '::ffff:172.20.0.1',
+  level: 'info',
+  message: 'Usuario logueado: test@example.com',
+  timestamp: '2025-08-26 11:07:02:72'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:07:14:714',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:07:44:744',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:08:14:814',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:08:45:845',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: undefined,
+  timestamp: '2025-08-26 11:09:03:93',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:09:15:915',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'axios/1.11.0',
+  timestamp: '2025-08-26 11:09:34:934',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:09:45:945',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:10:15:1015',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:10:45:1045',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:11:15:1115',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  message: 'Error capturado: request aborted',
+  stack: 'BadRequestError: request aborted\n' +
+    '    at IncomingMessage.onAborted (/usr/src/app/node_modules/raw-body/index.js:245:10)\n' +
+    '    at IncomingMessage.emit (node:events:517:28)\n' +
+    '    at IncomingMessage._destroy (node:_http_incoming:224:10)\n' +
+    '    at _destroy (node:internal/streams/destroy:109:10)\n' +
+    '    at IncomingMessage.destroy (node:internal/streams/destroy:71:5)\n' +
+    '    at abortIncoming (node:_http_server:781:9)\n' +
+    '    at socketOnClose (node:_http_server:775:3)\n' +
+    '    at Socket.emit (node:events:529:35)\n' +
+    '    at TCP.<anonymous> (node:net:350:12)',
+  url: '/api/auth/register',
+  method: 'POST',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'curl/8.15.0',
+  userId: undefined,
+  timestamp: '2025-08-26 11:11:40:1140',
+  level: 'error'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:11:45:1145',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  message: 'Error capturado: request aborted',
+  stack: 'BadRequestError: request aborted\n' +
+    '    at IncomingMessage.onAborted (/usr/src/app/node_modules/raw-body/index.js:245:10)\n' +
+    '    at IncomingMessage.emit (node:events:517:28)\n' +
+    '    at IncomingMessage._destroy (node:_http_incoming:224:10)\n' +
+    '    at _destroy (node:internal/streams/destroy:109:10)\n' +
+    '    at IncomingMessage.destroy (node:internal/streams/destroy:71:5)\n' +
+    '    at abortIncoming (node:_http_server:781:9)\n' +
+    '    at socketOnClose (node:_http_server:775:3)\n' +
+    '    at Socket.emit (node:events:529:35)\n' +
+    '    at TCP.<anonymous> (node:net:350:12)',
+  url: '/api/auth/login',
+  method: 'POST',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'curl/8.15.0',
+  userId: undefined,
+  timestamp: '2025-08-26 11:12:10:1210',
+  level: 'error'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:12:15:1215',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:12:45:1245',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  message: 'Error capturado: request aborted',
+  stack: 'BadRequestError: request aborted\n' +
+    '    at IncomingMessage.onAborted (/usr/src/app/node_modules/raw-body/index.js:245:10)\n' +
+    '    at IncomingMessage.emit (node:events:517:28)\n' +
+    '    at IncomingMessage._destroy (node:_http_incoming:224:10)\n' +
+    '    at _destroy (node:internal/streams/destroy:109:10)\n' +
+    '    at IncomingMessage.destroy (node:internal/streams/destroy:71:5)\n' +
+    '    at abortIncoming (node:_http_server:781:9)\n' +
+    '    at socketOnClose (node:_http_server:775:3)\n' +
+    '    at Socket.emit (node:events:529:35)\n' +
+    '    at TCP.<anonymous> (node:net:350:12)',
+  url: '/api/auth/login',
+  method: 'POST',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'curl/8.15.0',
+  userId: undefined,
+  timestamp: '2025-08-26 11:12:47:1247',
+  level: 'error'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:13:15:1315',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'axios/1.11.0',
+  timestamp: '2025-08-26 11:13:29:1329',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:13:45:1345',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'axios/1.11.0',
+  timestamp: '2025-08-26 11:13:53:1353',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  message: 'Error capturado: request aborted',
+  stack: 'BadRequestError: request aborted\n' +
+    '    at IncomingMessage.onAborted (/usr/src/app/node_modules/raw-body/index.js:245:10)\n' +
+    '    at IncomingMessage.emit (node:events:517:28)\n' +
+    '    at IncomingMessage._destroy (node:_http_incoming:224:10)\n' +
+    '    at _destroy (node:internal/streams/destroy:109:10)\n' +
+    '    at IncomingMessage.destroy (node:internal/streams/destroy:71:5)\n' +
+    '    at abortIncoming (node:_http_server:781:9)\n' +
+    '    at socketOnClose (node:_http_server:775:3)\n' +
+    '    at Socket.emit (node:events:529:35)\n' +
+    '    at TCP.<anonymous> (node:net:350:12)',
+  url: '/api/auth/login',
+  method: 'POST',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'curl/8.15.0',
+  userId: undefined,
+  timestamp: '2025-08-26 11:14:10:1410',
+  level: 'error'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:14:15:1415',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'axios/1.11.0',
+  timestamp: '2025-08-26 11:14:23:1423',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:14:45:1445',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  message: '🔄 Cerrando servidor...',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:15:11:1511'
+}
+{
+  message: '✅ Conectado a MongoDB',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:15:14:1514'
+}
+{
+  message: '🚀 Auth Service ejecutándose en puerto 3001',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:15:14:1514'
+}
+{
+  message: '🌍 Ambiente: development',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  timestamp: '2025-08-26 11:15:14:1514'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:15:18:1518',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'curl/8.15.0',
+  timestamp: '2025-08-26 11:15:28:1528',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  userId: new ObjectId('68ad948bb3cf88ff94715a44'),
+  ip: '::ffff:172.20.0.4',
+  level: 'info',
+  message: 'Usuario logueado: test@example.com',
+  timestamp: '2025-08-26 11:15:29:1529'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'curl/8.15.0',
+  timestamp: '2025-08-26 11:15:45:1545',
+  level: 'info',
+  message: 'POST /api/auth/register'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  userId: new ObjectId('68ad97610ce49ac580a8657a'),
+  ip: '::ffff:172.20.0.4',
+  level: 'info',
+  message: 'Usuario registrado: test3@example.com',
+  timestamp: '2025-08-26 11:15:45:1545'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:15:48:1548',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'curl/8.15.0',
+  timestamp: '2025-08-26 11:15:56:1556',
+  level: 'info',
+  message: 'GET /api/auth/health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:16:18:1618',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:16:48:1648',
+  level: 'info',
+  message: 'GET /health'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  message: 'Error capturado: request aborted',
+  stack: 'BadRequestError: request aborted\n' +
+    '    at IncomingMessage.onAborted (/usr/src/app/node_modules/raw-body/index.js:245:10)\n' +
+    '    at IncomingMessage.emit (node:events:517:28)\n' +
+    '    at IncomingMessage._destroy (node:_http_incoming:224:10)\n' +
+    '    at _destroy (node:internal/streams/destroy:109:10)\n' +
+    '    at IncomingMessage.destroy (node:internal/streams/destroy:71:5)\n' +
+    '    at abortIncoming (node:_http_server:781:9)\n' +
+    '    at socketOnClose (node:_http_server:775:3)\n' +
+    '    at Socket.emit (node:events:529:35)\n' +
+    '    at TCP.<anonymous> (node:net:350:12)',
+  url: '/api/auth/health',
+  method: 'GET',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'PostmanRuntime/7.45.0',
+  userId: undefined,
+  timestamp: '2025-08-26 11:16:53:1653',
+  level: 'error'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::ffff:172.20.0.4',
+  userAgent: 'PostmanRuntime/7.45.0',
+  timestamp: '2025-08-26 11:17:05:175',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  userId: new ObjectId('68ad948bb3cf88ff94715a44'),
+  ip: '::ffff:172.20.0.4',
+  level: 'info',
+  message: 'Usuario logueado: test@example.com',
+  timestamp: '2025-08-26 11:17:05:175'
+}
+{
+  service: 'auth-service',
+  environment: 'development',
+  version: '1.0.0',
+  ip: '::1',
+  userAgent: 'curl/8.12.1',
+  timestamp: '2025-08-26 11:17:18:1718',
+  level: 'info',
+  message: 'GET /health'
+}

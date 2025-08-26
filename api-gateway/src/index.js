@@ -7,7 +7,7 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 const routeConfig = require('./config/routes');
-const proxyMiddleware = require('./middleware/proxy');
+const proxyMiddleware = require('./middleware/simple-proxy');
 const { errorHandler } = require('./middleware/errorHandler');
 const healthCheck = require('./routes/health');
 const logger = require('./utils/logger');

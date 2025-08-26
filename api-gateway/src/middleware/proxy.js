@@ -162,51 +162,13 @@ function createProxyForRoute(routeConfig) {
   
   const proxy = createProxyMiddleware(proxyOptions);
   
-  // Wrapper con circuit breaker
+  // Simplified wrapper without circuit breaker (temporary)
   return (req, res, next) => {
     req.startTime = Date.now();
     req.id = req.id || generateRequestId();
     
-    // Función async para manejar circuit breaker
-    const handleRequest = async () => {
-      try {
-        // Verificar circuit breaker
-        await circuitBreaker.call(async () => {
-          // Verificar salud del servicio si está configurado
-          if (routeConfig.healthCheck) {
-            const isHealthy = await checkServiceHealth(routeConfig.target, routeConfig.healthCheck);
-            if (!isHealthy) {
-              throw new Error(`Servicio ${routeConfig.target} no está saludable`);
-            }
-          }
-          
-          return new Promise((resolve, reject) => {
-            proxy(req, res, (error) => {
-              if (error) {
-                reject(error);
-              } else {
-                resolve();
-              }
-            });
-          });
-        });
-      } catch (error) {
-        logger.error(`Circuit breaker o health check falló: ${error.message}`);
-        
-        if (!res.headersSent) {
-          res.status(503).json({
-            error: 'Servicio no disponible',
-            message: 'El servicio está temporalmente fuera de línea',
-            service: routeConfig.target,
-            timestamp: new Date().toISOString(),
-            requestId: req.id
-          });
-        }
-      }
-    };
-    
-    // Ejecutar la función async
-    handleRequest().catch(next);
+    // Direct proxy without circuit breaker or health checks
+    proxy(req, res, next);
   };
 }
 
