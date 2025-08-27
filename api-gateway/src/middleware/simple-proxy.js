@@ -56,7 +56,7 @@ function createSimpleProxy(routeConfig) {
       }
     });
 
-    proxyReq.setTimeout(10000, () => {
+    proxyReq.setTimeout(30000, () => {
       console.error('Proxy timeout');
       if (!res.headersSent) {
         res.status(504).json({

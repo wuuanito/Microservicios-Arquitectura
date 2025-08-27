@@ -30,6 +30,9 @@ const limiter = rateLimit({
   }
 });
 
+// Trust proxy configuration (necesario para API Gateway)
+app.set('trust proxy', 1);
+
 // Middleware
 app.use(helmet());
 app.use(limiter);
