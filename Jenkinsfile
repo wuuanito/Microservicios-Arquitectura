@@ -19,7 +19,7 @@ pipeline {
 
           def changedFiles = []
           if (env.GIT_PREVIOUS_SUCCESSFUL_COMMIT) {
-            def out = bat(returnStdout: true, script: 'git diff --name-only %GIT_PREVIOUS_SUCCESSFUL_COMMIT% HEAD').trim()
+            def out = sh(returnStdout: true, script: 'git diff --name-only $GIT_PREVIOUS_SUCCESSFUL_COMMIT HEAD').trim()
             if (out) changedFiles = out.split(/\r?\n/).collect { it.replace('\\','/') }
           } else {
             echo 'Primer build: construir todos los servicios.'
@@ -50,47 +50,47 @@ pipeline {
 
     stage('Login + Build & Push') {
       when { expression { return env.CHANGED_SERVICES?.trim() } }
-      agent { label 'windows-docker' }
+      agent any
       options {
         timeout(time: 30, unit: 'MINUTES')
       }
       steps {
         withCredentials([usernamePassword(credentialsId: 'REGISTRY_CREDS', usernameVariable: 'REG_USER', passwordVariable: 'REG_PWD')]) {
-          bat '''
-          docker logout ghcr.io 2>nul
-          echo %REG_PWD% | docker login ghcr.io -u %REG_USER% --password-stdin
+          sh '''
+          docker logout ghcr.io 2>/dev/null || true
+          echo $REG_PWD | docker login ghcr.io -u $REG_USER --password-stdin
           '''
         }
         script {
           def services = env.CHANGED_SERVICES.split(',') as List
           for (svc in services) {
             if (svc == 'api-gateway') {
-              bat """
+              sh """
               docker build -t ${env.CAT_API_GATEWAY_IMG}:${env.BUILD_NUMBER} -t ${env.CAT_API_GATEWAY_IMG}:latest -f ${env.CAT_API_GATEWAY_PATH}/Dockerfile ${env.CAT_API_GATEWAY_PATH}
               """
               retry(3) {
-                bat """
+                sh """
                 docker push ${env.CAT_API_GATEWAY_IMG}:${env.BUILD_NUMBER}
                 docker push ${env.CAT_API_GATEWAY_IMG}:latest
                 """
               }
               // Limpiar imágenes locales para liberar espacio
-              bat """
-              docker rmi ${env.CAT_API_GATEWAY_IMG}:${env.BUILD_NUMBER} ${env.CAT_API_GATEWAY_IMG}:latest 2>nul || echo "Images already removed"
+              sh """
+              docker rmi ${env.CAT_API_GATEWAY_IMG}:${env.BUILD_NUMBER} ${env.CAT_API_GATEWAY_IMG}:latest 2>/dev/null || echo "Images already removed"
               """
             } else if (svc == 'auth-service') {
-              bat """
+              sh """
               docker build -t ${env.CAT_AUTH_IMG}:${env.BUILD_NUMBER} -t ${env.CAT_AUTH_IMG}:latest -f ${env.CAT_AUTH_PATH}/Dockerfile ${env.CAT_AUTH_PATH}
               """
               retry(3) {
-                bat """
+                sh """
                 docker push ${env.CAT_AUTH_IMG}:${env.BUILD_NUMBER}
                 docker push ${env.CAT_AUTH_IMG}:latest
                 """
               }
               // Limpiar imágenes locales para liberar espacio
-              bat """
-              docker rmi ${env.CAT_AUTH_IMG}:${env.BUILD_NUMBER} ${env.CAT_AUTH_IMG}:latest 2>nul || echo "Images already removed"
+              sh """
+              docker rmi ${env.CAT_AUTH_IMG}:${env.BUILD_NUMBER} ${env.CAT_AUTH_IMG}:latest 2>/dev/null || echo "Images already removed"
               """
             } else {
               error "Servicio no mapeado: ${svc}"
