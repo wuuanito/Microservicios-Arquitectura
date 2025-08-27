@@ -24,10 +24,7 @@ const limiter = rateLimit({
     error: 'Demasiadas peticiones desde esta IP, intenta de nuevo en 15 minutos.'
   },
   standardHeaders: true,
-  legacyHeaders: false,
-  validate: {
-    xForwardedForHeader: false
-  }
+  legacyHeaders: false
 });
 
 // Trust proxy configuration (necesario para API Gateway)
