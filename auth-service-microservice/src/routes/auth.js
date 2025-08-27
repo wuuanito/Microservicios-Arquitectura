@@ -22,30 +22,34 @@ const authLimiter = rateLimit({
 
 // Validaciones
 const registerValidation = [
-  body('email')
-    .isEmail()
-    .normalizeEmail()
-    .withMessage('Debe ser un email válido'),
+  body('usuario')
+    .trim()
+    .isLength({ min: 3, max: 20 })
+    .withMessage('El usuario debe tener entre 3 y 20 caracteres')
+    .matches(/^[a-zA-Z0-9_]+$/)
+    .withMessage('El usuario solo puede contener letras, números y guiones bajos'),
   body('password')
     .isLength({ min: 6 })
     .withMessage('La contraseña debe tener al menos 6 caracteres')
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
     .withMessage('La contraseña debe contener al menos una mayúscula, una minúscula y un número'),
-  body('firstName')
-    .trim()
-    .isLength({ min: 2, max: 50 })
-    .withMessage('El nombre debe tener entre 2 y 50 caracteres'),
-  body('lastName')
-    .trim()
-    .isLength({ min: 2, max: 50 })
-    .withMessage('El apellido debe tener entre 2 y 50 caracteres')
-];
-
-const loginValidation = [
   body('email')
     .isEmail()
     .normalizeEmail()
     .withMessage('Debe ser un email válido'),
+  body('departamento')
+    .isIn(['Recursos Humanos', 'Tecnología', 'Ventas', 'Marketing', 'Finanzas', 'Operaciones', 'Administración'])
+    .withMessage('Departamento no válido'),
+  body('rol')
+    .isIn(['usuario', 'administrador', 'supervisor', 'gerente'])
+    .withMessage('Rol no válido')
+];
+
+const loginValidation = [
+  body('usuario')
+    .trim()
+    .notEmpty()
+    .withMessage('El usuario es requerido'),
   body('password')
     .notEmpty()
     .withMessage('La contraseña es requerida')
@@ -66,28 +70,35 @@ const handleValidationErrors = (req, res, next) => {
 // POST /api/auth/register
 router.post('/register', registerValidation, handleValidationErrors, async (req, res, next) => {
   try {
-    const { email, password, firstName, lastName } = req.body;
+    const { usuario, password, email, departamento, rol } = req.body;
 
     // Verificar si el usuario ya existe
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ $or: [{ usuario }, { email }] });
     if (existingUser) {
       return res.status(409).json({
         error: 'El usuario ya existe',
-        message: 'Ya existe una cuenta con este email'
+        message: 'Ya existe una cuenta con este usuario o email'
       });
     }
 
     // Crear nuevo usuario
     const user = new User({
-      email,
+      usuario,
       password,
-      firstName,
-      lastName
+      email,
+      departamento,
+      rol
     });
 
     await user.save();
 
-    // Generar tokens
+    // Crear sesión
+    req.session.userId = user._id;
+    req.session.usuario = user.usuario;
+    req.session.rol = user.rol;
+    req.session.departamento = user.departamento;
+
+    // Generar tokens (mantener compatibilidad)
     const accessToken = user.generateAuthToken();
     const refreshToken = user.generateRefreshToken();
     await user.save(); // Guardar refresh token
@@ -100,7 +111,7 @@ router.post('/register', registerValidation, handleValidationErrors, async (req,
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 días
     });
 
-    logger.info(`Usuario registrado: ${email}`, {
+    logger.info(`Usuario registrado: ${usuario}`, {
       userId: user._id,
       ip: req.ip
     });
@@ -108,7 +119,13 @@ router.post('/register', registerValidation, handleValidationErrors, async (req,
     res.status(201).json({
       message: 'Usuario registrado exitosamente',
       user: user.toJSON(),
-      accessToken
+      accessToken,
+      session: {
+        userId: req.session.userId,
+        usuario: req.session.usuario,
+        rol: req.session.rol,
+        departamento: req.session.departamento
+      }
     });
 
   } catch (error) {
@@ -120,14 +137,14 @@ router.post('/register', registerValidation, handleValidationErrors, async (req,
 // POST /api/auth/login
 router.post('/login', authLimiter, loginValidation, handleValidationErrors, async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { usuario, password } = req.body;
 
     // Buscar usuario
-    const user = await User.findOne({ email, isActive: true });
+    const user = await User.findOne({ usuario, isActive: true });
     if (!user) {
       return res.status(401).json({
         error: 'Credenciales inválidas',
-        message: 'Email o contraseña incorrectos'
+        message: 'Usuario o contraseña incorrectos'
       });
     }
 
@@ -145,7 +162,7 @@ router.post('/login', authLimiter, loginValidation, handleValidationErrors, asyn
       await user.incLoginAttempts();
       return res.status(401).json({
         error: 'Credenciales inválidas',
-        message: 'Email o contraseña incorrectos'
+        message: 'Usuario o contraseña incorrectos'
       });
     }
 
@@ -154,6 +171,12 @@ router.post('/login', authLimiter, loginValidation, handleValidationErrors, asyn
     
     // Limpiar refresh tokens expirados
     user.cleanExpiredRefreshTokens();
+
+    // Crear sesión
+    req.session.userId = user._id;
+    req.session.usuario = user.usuario;
+    req.session.rol = user.rol;
+    req.session.departamento = user.departamento;
 
     // Generar nuevos tokens
     const accessToken = user.generateAuthToken();
@@ -168,7 +191,7 @@ router.post('/login', authLimiter, loginValidation, handleValidationErrors, asyn
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 días
     });
 
-    logger.info(`Usuario logueado: ${email}`, {
+    logger.info(`Usuario logueado: ${usuario}`, {
       userId: user._id,
       ip: req.ip
     });
@@ -176,7 +199,13 @@ router.post('/login', authLimiter, loginValidation, handleValidationErrors, asyn
     res.json({
       message: 'Login exitoso',
       user: user.toJSON(),
-      accessToken
+      accessToken,
+      session: {
+        userId: req.session.userId,
+        usuario: req.session.usuario,
+        rol: req.session.rol,
+        departamento: req.session.departamento
+      }
     });
 
   } catch (error) {
@@ -247,10 +276,17 @@ router.post('/logout', authMiddleware, async (req, res, next) => {
       await user.save();
     }
 
+    // Destruir sesión
+    req.session.destroy((err) => {
+      if (err) {
+        logger.error('Error al destruir sesión:', err);
+      }
+    });
+
     // Limpiar cookie
     res.clearCookie('refreshToken');
 
-    logger.info(`Usuario deslogueado: ${user.email}`, {
+    logger.info(`Usuario deslogueado: ${user.usuario}`, {
       userId: user._id,
       ip: req.ip
     });
@@ -274,10 +310,17 @@ router.post('/logout-all', authMiddleware, async (req, res, next) => {
     user.refreshTokens = [];
     await user.save();
 
+    // Destruir sesión
+    req.session.destroy((err) => {
+      if (err) {
+        logger.error('Error al destruir sesión:', err);
+      }
+    });
+
     // Limpiar cookie
     res.clearCookie('refreshToken');
 
-    logger.info(`Usuario deslogueado de todos los dispositivos: ${user.email}`, {
+    logger.info(`Usuario deslogueado de todos los dispositivos: ${user.usuario}`, {
       userId: user._id,
       ip: req.ip
     });

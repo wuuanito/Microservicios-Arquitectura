@@ -3,6 +3,21 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
+  usuario: {
+    type: String,
+    required: [true, 'El usuario es requerido'],
+    unique: true,
+    lowercase: true,
+    trim: true,
+    minlength: [3, 'El usuario debe tener al menos 3 caracteres'],
+    maxlength: [20, 'El usuario no puede exceder 20 caracteres'],
+    match: [/^[a-zA-Z0-9_]+$/, 'El usuario solo puede contener letras, números y guiones bajos']
+  },
+  password: {
+    type: String,
+    required: [true, 'La contraseña es requerida'],
+    minlength: [6, 'La contraseña debe tener al menos 6 caracteres']
+  },
   email: {
     type: String,
     required: [true, 'El email es requerido'],
@@ -11,27 +26,18 @@ const userSchema = new mongoose.Schema({
     trim: true,
     match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Por favor ingresa un email válido']
   },
-  password: {
+  departamento: {
     type: String,
-    required: [true, 'La contraseña es requerida'],
-    minlength: [6, 'La contraseña debe tener al menos 6 caracteres']
-  },
-  firstName: {
-    type: String,
-    required: [true, 'El nombre es requerido'],
+    required: [true, 'El departamento es requerido'],
     trim: true,
-    maxlength: [50, 'El nombre no puede exceder 50 caracteres']
+    enum: ['Recursos Humanos', 'Tecnología', 'Ventas', 'Marketing', 'Finanzas', 'Operaciones', 'Administración'],
+    default: 'Administración'
   },
-  lastName: {
+  rol: {
     type: String,
-    required: [true, 'El apellido es requerido'],
-    trim: true,
-    maxlength: [50, 'El apellido no puede exceder 50 caracteres']
-  },
-  role: {
-    type: String,
-    enum: ['user', 'admin', 'moderator'],
-    default: 'user'
+    required: [true, 'El rol es requerido'],
+    enum: ['usuario', 'administrador', 'supervisor', 'gerente'],
+    default: 'usuario'
   },
   isActive: {
     type: Boolean,
@@ -91,13 +97,14 @@ const userSchema = new mongoose.Schema({
 });
 
 // Índices
-// El índice de email ya está definido con unique: true
+// Los índices de usuario y email ya están definidos con unique: true
 userSchema.index({ isActive: 1 });
-userSchema.index({ role: 1 });
+userSchema.index({ rol: 1 });
+userSchema.index({ departamento: 1 });
 
-// Virtual para nombre completo
-userSchema.virtual('fullName').get(function() {
-  return `${this.firstName} ${this.lastName}`;
+// Virtual para información del usuario
+userSchema.virtual('userInfo').get(function() {
+  return `${this.usuario} - ${this.departamento}`;
 });
 
 // Virtual para verificar si la cuenta está bloqueada
@@ -127,8 +134,10 @@ userSchema.methods.comparePassword = async function(candidatePassword) {
 userSchema.methods.generateAuthToken = function() {
   const payload = {
     userId: this._id,
+    usuario: this.usuario,
     email: this.email,
-    role: this.role
+    departamento: this.departamento,
+    rol: this.rol
   };
   
   return jwt.sign(
