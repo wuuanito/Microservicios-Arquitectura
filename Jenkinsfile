@@ -66,7 +66,7 @@ pipeline {
           for (svc in services) {
             if (svc == 'api-gateway') {
               bat """
-              docker build -t ${env.CAT_API_GATEWAY_IMG}:${env.BUILD_NUMBER} -t ${env.CAT_API_GATEWAY_IMG}:latest -f ${env.CAT_API_GATEWAY_PATH}\Dockerfile ${env.CAT_API_GATEWAY_PATH}
+              docker build -t ${env.CAT_API_GATEWAY_IMG}:${env.BUILD_NUMBER} -t ${env.CAT_API_GATEWAY_IMG}:latest -f ${env.CAT_API_GATEWAY_PATH}/Dockerfile ${env.CAT_API_GATEWAY_PATH}
               """
               retry(3) {
                 bat """
@@ -80,7 +80,7 @@ pipeline {
               """
             } else if (svc == 'auth-service') {
               bat """
-              docker build -t ${env.CAT_AUTH_IMG}:${env.BUILD_NUMBER} -t ${env.CAT_AUTH_IMG}:latest -f ${env.CAT_AUTH_PATH}\Dockerfile ${env.CAT_AUTH_PATH}
+              docker build -t ${env.CAT_AUTH_IMG}:${env.BUILD_NUMBER} -t ${env.CAT_AUTH_IMG}:latest -f ${env.CAT_AUTH_PATH}/Dockerfile ${env.CAT_AUTH_PATH}
               """
               retry(3) {
                 bat """
