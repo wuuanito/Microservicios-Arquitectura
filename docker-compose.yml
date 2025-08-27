@@ -6,6 +6,7 @@ services:
     restart: unless-stopped
     environment:
       - AUTH_SERVICE_URL=http://auth-service:3001
+      - WEBSOCKET_SERVICE_URL=http://websocket-server:3001
       - NODE_ENV=production
 
   auth-service:
@@ -16,6 +17,14 @@ services:
     environment:
       - MONGODB_URI=mongodb://mongo:27017/auth
       - NODE_ENV=production
+
+  websocket-server:
+    image: ghcr.io/wuuanito/websocket-server:${WEBSOCKET_TAG:-latest}
+    ports: ["6003:3001"]
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
 
   mongo:
     image: mongo:6.0

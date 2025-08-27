@@ -22,7 +22,8 @@ pipeline {
         script {
           def services = [
             [name: 'api-gateway',  path: 'api-gateway',  image: "${env.REGISTRY}/${env.OWNER}/api-gateway"],
-            [name: 'auth-service', path: 'auth-service', image: "${env.REGISTRY}/${env.OWNER}/auth-service-microservice"],
+            [name: 'auth-service', path: 'auth-service-microservice', image: "${env.REGISTRY}/${env.OWNER}/auth-service-microservice"],
+            [name: 'websocket-server', path: 'websocket-server', image: "${env.REGISTRY}/${env.OWNER}/websocket-server"],
           ]
           services.each { s ->
             echo "Rebuild ${s.name}"
@@ -40,6 +41,36 @@ pipeline {
 
     stage('Disparar despliegue TOTAL') {
       steps { build job: 'arquitectura-deploy', wait: false }
+    }
+  }
+
+  post {
+    success {
+      script {
+        try {
+          def version = "v${env.BUILD_NUMBER}"
+          def timestamp = System.currentTimeMillis()
+          def project = env.JOB_NAME
+          
+          // Notificar al WebSocket server sobre el deployment exitoso
+          bat """
+            curl -X POST http://192.168.11.7:6003/notify-update ^
+              -H "Content-Type: application/json" ^
+              -d "{
+                \"version\": \"${version}\",
+                \"project\": \"${project}\",
+                \"timestamp\": ${timestamp}
+              }"
+          """
+          echo "Notificación enviada al WebSocket server: ${version}"
+        } catch (Exception e) {
+          echo "Error enviando notificación al WebSocket server: ${e.getMessage()}"
+          // No fallar el build por esto
+        }
+      }
+    }
+    failure {
+      echo "Build falló - no se enviará notificación de actualización"
     }
   }
 }

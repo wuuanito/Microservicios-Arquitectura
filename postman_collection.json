@@ -11,6 +11,11 @@
       "type": "string"
     },
     {
+      "key": "websocket_url",
+      "value": "http://192.168.11.7:6003",
+      "type": "string"
+    },
+    {
       "key": "access_token",
       "value": "",
       "type": "string"
@@ -156,6 +161,59 @@
               "raw": "{{base_url}}/api/user/v1/profile",
               "host": ["{{base_url}}"],
               "path": ["api", "user", "v1", "profile"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "WebSocket Server",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{websocket_url}}/health",
+              "host": ["{{websocket_url}}"],
+              "path": ["health"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Notify Update",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"version\": \"v1.2.3\",\n  \"project\": \"react-app\",\n  \"timestamp\": {{$timestamp}}\n}"
+            },
+            "url": {
+              "raw": "{{websocket_url}}/notify-update",
+              "host": ["{{websocket_url}}"],
+              "path": ["notify-update"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Latest Version",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{websocket_url}}/latest-version",
+              "host": ["{{websocket_url}}"],
+              "path": ["latest-version"]
             }
           },
           "response": []

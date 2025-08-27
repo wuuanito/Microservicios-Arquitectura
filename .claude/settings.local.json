@@ -15,7 +15,11 @@
       "Bash(docker exec:*)",
       "Bash(curl:*)",
       "Bash(docker inspect:*)",
-      "Bash(docker ps:*)"
+      "Bash(docker ps:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []

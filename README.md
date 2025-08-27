@@ -7,22 +7,22 @@ Este proyecto implementa una arquitectura de microservicios moderna utilizando N
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Frontend      │    │   API Gateway   │    │   Auth Service  │
-│   (Puerto 8080) │◄──►│   (Puerto 3000) │◄──►│   (Puerto 3001) │
+│   (Puerto 8080) │◄──►│   (Puerto 6000) │◄──►│   (Puerto 6001) │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
-                                │                        │
-                                │                        │
-                                ▼                        ▼
-                       ┌─────────────────┐    ┌─────────────────┐
-                       │    MongoDB      │    │     Logs        │
-                       │  (Puerto 27017) │    │   Centralizados │
-                       └─────────────────┘    └─────────────────┘
+         │                       │                        │
+         │                       │                        │
+         ▼                       ▼                        ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│ WebSocket Server│    │    MongoDB      │    │     Logs        │
+│   (Puerto 6003) │    │  (Puerto 27017) │    │   Centralizados │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
 ## 📁 Estructura del Proyecto
 
 ```
 Microservicios-Arquitectura/
-├── api-gateway/                 # Gateway principal - Puerto 3000
+├── api-gateway/                 # Gateway principal - Puerto 6000
 │   ├── src/
 │   │   ├── routes/
 │   │   ├── middleware/
@@ -30,7 +30,7 @@ Microservicios-Arquitectura/
 │   ├── Dockerfile
 │   ├── package.json
 │   └── index.js
-├── auth-service/                # Servicio de autenticación - Puerto 3001
+├── auth-service-microservice/   # Servicio de autenticación - Puerto 6001
 │   ├── src/
 │   │   ├── models/
 │   │   ├── routes/
@@ -39,7 +39,14 @@ Microservicios-Arquitectura/
 │   ├── Dockerfile
 │   ├── package.json
 │   └── index.js
+├── websocket-server/            # Servidor WebSocket - Puerto 6003
+│   ├── server.js
+│   ├── Dockerfile
+│   ├── package.json
+│   └── README.md
 ├── docker-compose.yml           # Orquestación de todos los servicios
+├── postman_collection.json      # Colección de Postman para testing
+├── API_TESTING_GUIDE.md         # Guía de testing de APIs
 └── README.md                    # Este archivo
 ```
 
@@ -55,7 +62,7 @@ Microservicios-Arquitectura/
   - Manejo de CORS
   - Load balancing
 
-### 2. Auth Service (Puerto 3001)
+### 2. Auth Service (Puerto 6001)
 - **Función**: Gestión de autenticación y autorización
 - **Responsabilidades**:
   - Registro de usuarios
@@ -67,7 +74,16 @@ Microservicios-Arquitectura/
   - Gestión de roles y permisos
   - Auditoría de seguridad
 
-### 3. MongoDB (Puerto 27017)
+### 3. WebSocket Server (Puerto 6003)
+- **Función**: Notificaciones en tiempo real
+- **Responsabilidades**:
+  - Notificaciones de actualizaciones de aplicación
+  - Comunicación bidireccional con frontend
+  - Historial de deployments
+  - Estadísticas de conexiones
+  - Integración con CI/CD (Jenkins)
+
+### 4. MongoDB (Puerto 27017)
 - **Función**: Base de datos principal
 - **Características**:
   - Almacenamiento de datos de usuarios
@@ -127,8 +143,9 @@ docker-compose down
 ```
 
 ### 4. Verificar servicios
-- **API Gateway**: http://localhost:3000/health
-- **Auth Service**: http://localhost:3001/health
+- **API Gateway**: http://localhost:6000/health
+- **Auth Service**: http://localhost:6001/health
+- **WebSocket Server**: http://localhost:6003/health
 - **MongoDB**: mongodb://localhost:27017
 
 ## 📋 Endpoints Principales
@@ -263,6 +280,36 @@ La arquitectura está preparada para agregar:
    - Emails transaccionales
    - Notificaciones push
    - SMS
+
+## 🔔 WebSocket y Notificaciones en Tiempo Real
+
+El sistema incluye un servidor WebSocket dedicado para notificaciones en tiempo real:
+
+### Características:
+- **Notificaciones de actualizaciones**: Informa a los usuarios cuando hay nuevas versiones
+- **Historial de deployments**: Mantiene registro de las últimas actualizaciones
+- **Integración con CI/CD**: Se conecta automáticamente con Jenkins
+- **Estadísticas en tiempo real**: Tracking de usuarios conectados
+
+### Uso en Frontend:
+```javascript
+import { io } from 'socket.io-client';
+
+const socket = io('http://localhost:6003');
+
+// Escuchar actualizaciones
+socket.on('app-updated', (data) => {
+  showNotification(`Nueva versión ${data.version} disponible!`);
+});
+```
+
+### Integración con Jenkins:
+```bash
+# Notificar después del deployment
+curl -X POST http://localhost:6003/notify-update \
+  -H 'Content-Type: application/json' \
+  -d '{"version": "v1.2.3", "project": "mi-app"}'
+```
 
 ## 📈 Escalabilidad
 

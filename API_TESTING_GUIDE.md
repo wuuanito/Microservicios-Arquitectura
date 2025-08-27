@@ -7,6 +7,11 @@ El sistema utiliza:
 - **Campos requeridos**: usuario, password, email, departamento, rol
 - **Servidor**: http://192.168.11.7:6000
 
+## Puertos Expuestos
+- **API Gateway**: http://192.168.11.7:6000
+- **Auth Service**: Puerto interno 3001 (accesible a través del gateway)
+- **WebSocket Server**: http://192.168.11.7:6003
+
 ## Opción 1: Usar Postman
 
 ### Importar Colección
@@ -113,6 +118,50 @@ Invoke-RestMethod -Uri 'http://192.168.11.7:6000/api/auth/v1/logout' `
 - administrador
 - director
 - usuario
+
+## WebSocket Server - Notificaciones en Tiempo Real
+
+El servidor WebSocket proporciona notificaciones en tiempo real para actualizaciones de la aplicación.
+
+### Endpoints Disponibles
+
+#### 1. Health Check
+```powershell
+Invoke-RestMethod -Uri "http://192.168.11.7:6003/health" -Method GET
+```
+
+#### 2. Notificar Actualización (usado por Jenkins)
+```powershell
+$updateData = @{
+    version = "v1.2.3"
+    project = "react-app"
+    timestamp = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
+} | ConvertTo-Json
+
+Invoke-RestMethod -Uri "http://192.168.11.7:6003/notify-update" -Method POST -Body $updateData -ContentType "application/json"
+```
+
+#### 3. Obtener Última Versión
+```powershell
+Invoke-RestMethod -Uri "http://192.168.11.7:6003/latest-version" -Method GET
+```
+
+### Conexión WebSocket desde JavaScript
+```javascript
+// En tu aplicación frontend
+const socket = io('http://192.168.11.7:6003');
+
+// Escuchar actualizaciones
+socket.on('app-updated', (data) => {
+    console.log('Nueva versión disponible:', data.version);
+    // Mostrar notificación al usuario
+});
+
+// Recibir historial de deployments
+socket.on('deployment-history', (history) => {
+    console.log('Historial de deployments:', history);
+});
+```
 
 ## Solución de Problemas
 
