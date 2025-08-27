@@ -1,6 +1,6 @@
 services:
   api-gateway:
-    image: ghcr.io/wuuanito/api-gateway:${API_GATEWAY_TAG:-latest}
+    image: ghcr.io/wuuanito/api-gateway-microservice:${API_GATEWAY_TAG:-latest}
     ports: ["6000:3000"]
     depends_on: [mongo, auth-service]
     restart: unless-stopped
@@ -9,7 +9,7 @@ services:
       - NODE_ENV=production
 
   auth-service:
-    image: ghcr.io/wuuanito/auth-service:${AUTH_TAG:-latest}
+    image: ghcr.io/wuuanito/auth-service-microservice:${AUTH_TAG:-latest}
     ports: ["6001:3001"]
     depends_on: [mongo]
     restart: unless-stopped

@@ -28,6 +28,19 @@ const registerValidation = [
     .withMessage('El usuario debe tener entre 3 y 20 caracteres')
     .matches(/^[a-zA-Z0-9_]+$/)
     .withMessage('El usuario solo puede contener letras, números y guiones bajos'),
+  body('firstName')
+    .trim()
+    .isLength({ min: 2, max: 50 })
+    .withMessage('El nombre debe tener entre 2 y 50 caracteres'),
+  body('lastName')
+    .trim()
+    .isLength({ min: 2, max: 50 })
+    .withMessage('El apellido debe tener entre 2 y 50 caracteres'),
+  body('email')
+    .trim()
+    .isEmail()
+    .withMessage('Debe ser un email válido')
+    .normalizeEmail(),
   body('password')
     .isLength({ min: 6 })
     .withMessage('La contraseña debe tener al menos 6 caracteres')
@@ -66,7 +79,7 @@ const handleValidationErrors = (req, res, next) => {
 // POST /api/auth/register
 router.post('/register', registerValidation, handleValidationErrors, async (req, res, next) => {
   try {
-    const { usuario, password, email, departamento, rol } = req.body;
+    const { usuario, firstName, lastName, email, password, departamento, rol } = req.body;
 
     // Verificar si el usuario ya existe
     const existingUser = await User.findOne({ $or: [{ usuario }, { email }] });
@@ -80,8 +93,10 @@ router.post('/register', registerValidation, handleValidationErrors, async (req,
     // Crear nuevo usuario
     const user = new User({
       usuario,
-      password,
+      firstName,
+      lastName,
       email,
+      password,
       departamento,
       rol
     });

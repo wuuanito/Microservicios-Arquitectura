@@ -13,6 +13,20 @@ const userSchema = new mongoose.Schema({
     maxlength: [20, 'El usuario no puede exceder 20 caracteres'],
     match: [/^[a-zA-Z0-9_]+$/, 'El usuario solo puede contener letras, números y guiones bajos']
   },
+  firstName: {
+    type: String,
+    required: [true, 'El nombre es requerido'],
+    trim: true,
+    minlength: [2, 'El nombre debe tener al menos 2 caracteres'],
+    maxlength: [50, 'El nombre no puede exceder 50 caracteres']
+  },
+  lastName: {
+    type: String,
+    required: [true, 'El apellido es requerido'],
+    trim: true,
+    minlength: [2, 'El apellido debe tener al menos 2 caracteres'],
+    maxlength: [50, 'El apellido no puede exceder 50 caracteres']
+  },
   password: {
     type: String,
     required: [true, 'La contraseña es requerida'],
@@ -139,6 +153,8 @@ userSchema.methods.generateAuthToken = function() {
   const payload = {
     userId: this._id,
     usuario: this.usuario,
+    firstName: this.firstName,
+    lastName: this.lastName,
     email: this.email,
     departamento: this.departamento,
     rol: this.rol
