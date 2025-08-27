@@ -6,19 +6,16 @@ pipeline {
     OWNER    = 'wuuanito'
   }
 
-  options { skipDefaultCheckout(false) }  // Jenkins hace checkout del repo
-
-  // En el job activarás "Consultar repositorio (SCM)" con un cron (ver paso 3)
-  triggers { }
+  options { skipDefaultCheckout(false) }  // Jenkins hace checkout de este repo
 
   stages {
     stage('Detectar servicios cambiados') {
       steps {
         script {
-          // nombre en docker-compose | carpeta en repo                  | nombre de imagen en GHCR
+          // nombre en compose | carpeta en repo                | imagen en GHCR
           def catalog = [
-            [name: 'api-gateway',  path: 'api-gateway',                 image: "${REGISTRY}/${OWNER}/api-gateway"],
-            [name: 'auth-service', path: 'auth-service-microservice',   image: "${REGISTRY}/${OWNER}/auth-service-microservice"],
+            [name: 'api-gateway',  path: 'api-gateway',               image: "${REGISTRY}/${OWNER}/api-gateway"],
+            [name: 'auth-service', path: 'auth-service-microservice', image: "${REGISTRY}/${OWNER}/auth-service-microservice"],
           ]
 
           def changedFiles = []
@@ -72,9 +69,10 @@ pipeline {
               """
             }
             stage("Deploy: ${svc.name}") {
+              // Importante: el nombre del servicio es el del docker-compose (auth-service / api-gateway)
               build job: 'arquitectura-deploy', parameters: [
-                string(name: 'SERVICE', value: svc.name),            // el nombre del servicio en tu compose (auth-service, api-gateway)
-                string(name: 'TAG',     value: "${env.BUILD_NUMBER}")// desplegamos la versión exacta
+                string(name: 'SERVICE', value: svc.name),
+                string(name: 'TAG',     value: "${env.BUILD_NUMBER}")
               ]
             }
           }
