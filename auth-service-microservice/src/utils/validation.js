@@ -142,14 +142,18 @@ const authSchemas = {
   
   // Login de usuario
   login: customJoi.object({
-    email: customJoi.string()
-      .validEmail()
-      .lowercase()
+    usuario: customJoi.string()
       .trim()
+      .min(3)
+      .max(20)
+      .pattern(/^[a-zA-Z0-9_]+$/)
       .required()
       .messages({
-        'string.empty': 'El email es requerido',
-        'any.required': 'El email es requerido'
+        'string.empty': 'El usuario es requerido',
+        'string.min': 'El usuario debe tener al menos 3 caracteres',
+        'string.max': 'El usuario no puede exceder 20 caracteres',
+        'string.pattern.base': 'El usuario solo puede contener letras, números y guiones bajos',
+        'any.required': 'El usuario es requerido'
       }),
     
     password: customJoi.string()
