@@ -4,12 +4,18 @@ services:
     ports: ["3000:3000"]
     depends_on: [mongo, auth-service]
     restart: unless-stopped
+    environment:
+      - AUTH_SERVICE_URL=http://auth-service:3001
+      - NODE_ENV=production
 
   auth-service:
     image: ghcr.io/wuuanito/auth-service:${AUTH_TAG:-latest}
     ports: ["3001:3001"]
     depends_on: [mongo]
     restart: unless-stopped
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/auth
+      - NODE_ENV=production
 
   mongo:
     image: mongo:6.0
