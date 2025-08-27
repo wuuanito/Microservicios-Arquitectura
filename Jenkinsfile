@@ -1,18 +1,17 @@
 pipeline {
-  agent { label 'windows-docker' }
+  agent none
 
   environment {
     REGISTRY = 'ghcr.io'
     OWNER    = 'wuuanito'
   }
 
-  options { skipDefaultCheckout(false) }
-
   stages {
     stage('Detectar servicios cambiados') {
+      agent any
       steps {
         script {
-          // nombre compose -> { path del repo, imagen GHCR }
+          // servicio en compose -> { path repo, imagen GHCR }
           def catalog = [
             'api-gateway' : [path: 'api-gateway',               image: "${env.REGISTRY}/${env.OWNER}/api-gateway"],
             'auth-service': [path: 'auth-service-microservice', image: "${env.REGISTRY}/${env.OWNER}/auth-service-microservice"],
@@ -33,19 +32,25 @@ pipeline {
 
           if (!changedServices) {
             echo 'No hay cambios en carpetas de servicios. Fin.'
-            currentBuild.description = 'No service changes'
             env.CHANGED_SERVICES = ''
             return
           }
 
           env.CHANGED_SERVICES = changedServices.join(',')
+          // Guardamos también un catálogo “serializado” simple para reusarlo sin JSON
+          env.CAT_API_GATEWAY_PATH = catalog['api-gateway'].path
+          env.CAT_API_GATEWAY_IMG  = catalog['api-gateway'].image
+          env.CAT_AUTH_PATH        = catalog['auth-service'].path
+          env.CAT_AUTH_IMG         = catalog['auth-service'].image
+
           echo "Servicios a construir: ${env.CHANGED_SERVICES}"
         }
       }
     }
 
-    stage('Login GHCR') {
+    stage('Login + Build & Push') {
       when { expression { return env.CHANGED_SERVICES?.trim() } }
+      agent { label 'windows-docker' }
       steps {
         withCredentials([usernamePassword(credentialsId: 'REGISTRY_CREDS', usernameVariable: 'REG_USER', passwordVariable: 'REG_PWD')]) {
           bat '''
@@ -53,36 +58,40 @@ pipeline {
           echo %REG_PWD% | docker login ghcr.io -u %REG_USER% --password-stdin
           '''
         }
+        script {
+          def services = env.CHANGED_SERVICES.split(',') as List
+          for (svc in services) {
+            if (svc == 'api-gateway') {
+              bat """
+              docker build -t ${env.CAT_API_GATEWAY_IMG}:${env.BUILD_NUMBER} -t ${env.CAT_API_GATEWAY_IMG}:latest -f ${env.CAT_API_GATEWAY_PATH}\\Dockerfile ${env.CAT_API_GATEWAY_PATH}
+              docker push ${env.CAT_API_GATEWAY_IMG}:${env.BUILD_NUMBER}
+              docker push ${env.CAT_API_GATEWAY_IMG}:latest
+              """
+            } else if (svc == 'auth-service') {
+              bat """
+              docker build -t ${env.CAT_AUTH_IMG}:${env.BUILD_NUMBER} -t ${env.CAT_AUTH_IMG}:latest -f ${env.CAT_AUTH_PATH}\\Dockerfile ${env.CAT_AUTH_PATH}
+              docker push ${env.CAT_AUTH_IMG}:${env.BUILD_NUMBER}
+              docker push ${env.CAT_AUTH_IMG}:latest
+              """
+            } else {
+              error "Servicio no mapeado: ${svc}"
+            }
+          }
+        }
       }
     }
 
-    stage('Build & Push + Deploy') {
+    stage('Disparar deploy(s)') {
       when { expression { return env.CHANGED_SERVICES?.trim() } }
+      agent none
       steps {
         script {
-          def catalog = [
-            'api-gateway' : [path: 'api-gateway',               image: "${env.REGISTRY}/${env.OWNER}/api-gateway"],
-            'auth-service': [path: 'auth-service-microservice', image: "${env.REGISTRY}/${env.OWNER}/auth-service-microservice"],
-          ]
-
           def services = env.CHANGED_SERVICES.split(',') as List
           for (svc in services) {
-            def meta = catalog[svc]
-            if (!meta) { error "Servicio no mapeado: ${svc}" }
-
-            stage("Build & Push: ${svc}") {
-              bat """
-              docker build -t ${meta.image}:${env.BUILD_NUMBER} -t ${meta.image}:latest -f ${meta.path}\\Dockerfile ${meta.path}
-              docker push ${meta.image}:${env.BUILD_NUMBER}
-              docker push ${meta.image}:latest
-              """
-            }
-            stage("Deploy: ${svc}") {
-              build job: 'arquitectura-deploy', parameters: [
-                string(name: 'SERVICE', value: svc),
-                string(name: 'TAG',     value: "${env.BUILD_NUMBER}")
-              ]
-            }
+            build job: 'arquitectura-deploy', parameters: [
+              string(name: 'SERVICE', value: svc),
+              string(name: 'TAG',     value: "${env.BUILD_NUMBER}")
+            ]
           }
         }
       }
