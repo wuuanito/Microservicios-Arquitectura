@@ -29,15 +29,15 @@ pipeline {
         script {
           def services = [
             [name: 'api-gateway',  path: 'api-gateway',             image: "${env.REGISTRY}/${env.OWNER}/api-gateway"],
-            [name: 'auth-service', path: 'auth-service',            image: "${env.REGISTRY}/${env.OWNER}/auth-service-microservice"],
+            [name: 'auth-service', path: 'auth-service-microservice', image: "${env.REGISTRY}/${env.OWNER}/auth-service-microservice"],
             // añade aquí más servicios cuando existan:
             // [name: 'user-service', path: 'user-service', image: "${env.REGISTRY}/${env.OWNER}/user-service"]
           ]
 
           services.each { s ->
             echo "Construyendo y publicando ${s.name}"
-            bat """
-            docker build -t ${s.image}:${env.BUILD_NUMBER} -t ${s.image}:latest -f ${s.path}\\Dockerfile ${s.path}
+            sh """
+            docker build -t ${s.image}:${env.BUILD_NUMBER} -t ${s.image}:latest -f ${s.path}/Dockerfile ${s.path}
             docker push ${s.image}:${env.BUILD_NUMBER}
             docker push ${s.image}:latest
             """
