@@ -9,7 +9,7 @@ services:
       - NODE_ENV=production
 
   auth-service:
-    image: ghcr.io/wuuanito/auth-service:${AUTH_TAG:-latest}
+    image: ghcr.io/wuuanito/auth-service-microservice:${AUTH_TAG:-latest}
     ports: ["6001:3001"]
     depends_on: [mongo]
     restart: unless-stopped
