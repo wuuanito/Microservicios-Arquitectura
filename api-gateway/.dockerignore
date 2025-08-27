@@ -1,0 +1,64 @@
+# Node modules
+node_modules
+npm-debug.log
+
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# Environment files
+.env
+.env.*
+
+# Logs
+logs
+*.log
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
+
+# Testing
+coverage
+.nyc_output
+test
+*.test.js
+*.spec.js
+
+# Temporary files
+tmp
+temp
+
+# SSL certificates
+ssl
+*.pem
+*.key
+*.crt
+
+# Monitoring data
+prometheus-data
+grafana-data
+
+# Backup files
+*.backup
+*.bak

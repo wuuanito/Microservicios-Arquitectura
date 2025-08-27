@@ -125,9 +125,7 @@ logs/
 *.sqlite
 *.sqlite3
 
-# Docker
-.dockerignore
-docker-compose*
+
 
 # PM2
 .pm2

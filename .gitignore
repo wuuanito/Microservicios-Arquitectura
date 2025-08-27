@@ -126,10 +126,7 @@ auth-service-microservice/logs/
 *.sqlite
 *.sqlite3
 
-# Docker
-.dockerignore
-Dockerfile*
-docker-compose*
+
 
 # PM2
 .pm2

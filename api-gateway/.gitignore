@@ -104,10 +104,7 @@ dist
 # TernJS port file
 .tern-port
 
-# Docker
-.dockerignore
-Dockerfile.dev
-docker-compose.override.yml
+
 
 # IDE
 .vscode/
