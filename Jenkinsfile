@@ -6,16 +6,16 @@ pipeline {
     OWNER    = 'wuuanito'
   }
 
-  options { skipDefaultCheckout(false) }  // Jenkins hace checkout de este repo
+  options { skipDefaultCheckout(false) }
 
   stages {
     stage('Detectar servicios cambiados') {
       steps {
         script {
-          // nombre en compose | carpeta en repo                | imagen en GHCR
+          // nombre compose -> { path del repo, imagen GHCR }
           def catalog = [
-            [name: 'api-gateway',  path: 'api-gateway',               image: "${REGISTRY}/${OWNER}/api-gateway"],
-            [name: 'auth-service', path: 'auth-service-microservice', image: "${REGISTRY}/${OWNER}/auth-service-microservice"],
+            'api-gateway' : [path: 'api-gateway',               image: "${env.REGISTRY}/${env.OWNER}/api-gateway"],
+            'auth-service': [path: 'auth-service-microservice', image: "${env.REGISTRY}/${env.OWNER}/auth-service-microservice"],
           ]
 
           def changedFiles = []
@@ -27,51 +27,59 @@ pipeline {
             changedFiles = ['__build_all__']
           }
 
-          def toBuild = catalog.findAll { svc ->
-            changedFiles.contains('__build_all__') || changedFiles.any { it.startsWith("${svc.path}/") }
+          def changedServices = catalog.keySet().findAll { svc ->
+            changedFiles.contains('__build_all__') || changedFiles.any { it.startsWith("${catalog[svc].path}/") }
           }
 
-          if (!toBuild) {
+          if (!changedServices) {
             echo 'No hay cambios en carpetas de servicios. Fin.'
             currentBuild.description = 'No service changes'
+            env.CHANGED_SERVICES = ''
             return
           }
 
-          env.SVCS_JSON = groovy.json.JsonOutput.toJson(toBuild)
-          echo "Servicios a construir: " + toBuild.collect { it.name }.join(', ')
+          env.CHANGED_SERVICES = changedServices.join(',')
+          echo "Servicios a construir: ${env.CHANGED_SERVICES}"
         }
       }
     }
 
     stage('Login GHCR') {
-      when { expression { return env.SVCS_JSON?.trim() } }
+      when { expression { return env.CHANGED_SERVICES?.trim() } }
       steps {
         withCredentials([usernamePassword(credentialsId: 'REGISTRY_CREDS', usernameVariable: 'REG_USER', passwordVariable: 'REG_PWD')]) {
-          bat """
+          bat '''
           docker logout ghcr.io 2>nul
           echo %REG_PWD% | docker login ghcr.io -u %REG_USER% --password-stdin
-          """
+          '''
         }
       }
     }
 
     stage('Build & Push + Deploy') {
-      when { expression { return env.SVCS_JSON?.trim() } }
+      when { expression { return env.CHANGED_SERVICES?.trim() } }
       steps {
         script {
-          def svcs = new groovy.json.JsonSlurperClassic().parseText(env.SVCS_JSON)
-          for (svc in svcs) {
-            stage("Build & Push: ${svc.name}") {
+          def catalog = [
+            'api-gateway' : [path: 'api-gateway',               image: "${env.REGISTRY}/${env.OWNER}/api-gateway"],
+            'auth-service': [path: 'auth-service-microservice', image: "${env.REGISTRY}/${env.OWNER}/auth-service-microservice"],
+          ]
+
+          def services = env.CHANGED_SERVICES.split(',') as List
+          for (svc in services) {
+            def meta = catalog[svc]
+            if (!meta) { error "Servicio no mapeado: ${svc}" }
+
+            stage("Build & Push: ${svc}") {
               bat """
-              docker build -t ${svc.image}:${env.BUILD_NUMBER} -t ${svc.image}:latest -f ${svc.path}\\Dockerfile ${svc.path}
-              docker push ${svc.image}:${env.BUILD_NUMBER}
-              docker push ${svc.image}:latest
+              docker build -t ${meta.image}:${env.BUILD_NUMBER} -t ${meta.image}:latest -f ${meta.path}\\Dockerfile ${meta.path}
+              docker push ${meta.image}:${env.BUILD_NUMBER}
+              docker push ${meta.image}:latest
               """
             }
-            stage("Deploy: ${svc.name}") {
-              // Importante: el nombre del servicio es el del docker-compose (auth-service / api-gateway)
+            stage("Deploy: ${svc}") {
               build job: 'arquitectura-deploy', parameters: [
-                string(name: 'SERVICE', value: svc.name),
+                string(name: 'SERVICE', value: svc),
                 string(name: 'TAG',     value: "${env.BUILD_NUMBER}")
               ]
             }
