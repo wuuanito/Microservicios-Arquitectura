@@ -85,32 +85,34 @@ const authSchemas = {
         'any.required': 'La confirmación de contraseña es requerida'
       }),
     
-    firstName: customJoi.string()
+    usuario: customJoi.string()
       .trim()
-      .min(2)
-      .max(50)
-      .pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)
+      .min(3)
+      .max(20)
+      .pattern(/^[a-zA-Z0-9_]+$/)
       .required()
       .messages({
-        'string.empty': 'El nombre es requerido',
-        'string.min': 'El nombre debe tener al menos 2 caracteres',
-        'string.max': 'El nombre no puede exceder 50 caracteres',
-        'string.pattern.base': 'El nombre solo puede contener letras y espacios',
-        'any.required': 'El nombre es requerido'
+        'string.empty': 'El usuario es requerido',
+        'string.min': 'El usuario debe tener al menos 3 caracteres',
+        'string.max': 'El usuario no puede exceder 20 caracteres',
+        'string.pattern.base': 'El usuario solo puede contener letras, números y guiones bajos',
+        'any.required': 'El usuario es requerido'
       }),
     
-    lastName: customJoi.string()
-      .trim()
-      .min(2)
-      .max(50)
-      .pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)
+    departamento: customJoi.string()
+      .valid('administracion', 'compras', 'informatica', 'gerencia', 'rrhh', 'produccion', 'softgel', 'calidad', 'laboratorio', 'mantenimiento', 'oficina_tecnica', 'logistica')
       .required()
       .messages({
-        'string.empty': 'El apellido es requerido',
-        'string.min': 'El apellido debe tener al menos 2 caracteres',
-        'string.max': 'El apellido no puede exceder 50 caracteres',
-        'string.pattern.base': 'El apellido solo puede contener letras y espacios',
-        'any.required': 'El apellido es requerido'
+        'any.only': 'Departamento no válido',
+        'any.required': 'El departamento es requerido'
+      }),
+    
+    rol: customJoi.string()
+      .valid('administrador', 'director', 'usuario')
+      .required()
+      .messages({
+        'any.only': 'Rol no válido',
+        'any.required': 'El rol es requerido'
       }),
     
     phone: customJoi.string()
@@ -261,28 +263,30 @@ const authSchemas = {
 const userSchemas = {
   // Actualizar perfil
   updateProfile: customJoi.object({
-    firstName: customJoi.string()
+    usuario: customJoi.string()
       .trim()
-      .min(2)
-      .max(50)
-      .pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)
+      .min(3)
+      .max(20)
+      .pattern(/^[a-zA-Z0-9_]+$/)
       .optional()
       .messages({
-        'string.min': 'El nombre debe tener al menos 2 caracteres',
-        'string.max': 'El nombre no puede exceder 50 caracteres',
-        'string.pattern.base': 'El nombre solo puede contener letras y espacios'
+        'string.min': 'El usuario debe tener al menos 3 caracteres',
+        'string.max': 'El usuario no puede exceder 20 caracteres',
+        'string.pattern.base': 'El usuario solo puede contener letras, números y guiones bajos'
       }),
     
-    lastName: customJoi.string()
-      .trim()
-      .min(2)
-      .max(50)
-      .pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)
+    departamento: customJoi.string()
+      .valid('administracion', 'compras', 'informatica', 'gerencia', 'rrhh', 'produccion', 'softgel', 'calidad', 'laboratorio', 'mantenimiento', 'oficina_tecnica', 'logistica')
       .optional()
       .messages({
-        'string.min': 'El apellido debe tener al menos 2 caracteres',
-        'string.max': 'El apellido no puede exceder 50 caracteres',
-        'string.pattern.base': 'El apellido solo puede contener letras y espacios'
+        'any.only': 'Departamento no válido'
+      }),
+    
+    rol: customJoi.string()
+      .valid('administrador', 'director', 'usuario')
+      .optional()
+      .messages({
+        'any.only': 'Rol no válido'
       }),
     
     phone: customJoi.string()
@@ -389,7 +393,7 @@ const querySchemas = {
       .optional(),
     
     sort: customJoi.string()
-      .valid('createdAt', '-createdAt', 'email', '-email', 'firstName', '-firstName')
+      .valid('createdAt', '-createdAt', 'email', '-email', 'usuario', '-usuario')
       .default('-createdAt')
       .optional(),
     

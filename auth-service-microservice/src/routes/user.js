@@ -21,21 +21,26 @@ const handleValidationErrors = (req, res, next) => {
 
 // Validaciones
 const updateProfileValidation = [
-  body('firstName')
+  body('usuario')
     .optional()
     .trim()
-    .isLength({ min: 2, max: 50 })
-    .withMessage('El nombre debe tener entre 2 y 50 caracteres'),
-  body('lastName')
-    .optional()
-    .trim()
-    .isLength({ min: 2, max: 50 })
-    .withMessage('El apellido debe tener entre 2 y 50 caracteres'),
+    .isLength({ min: 3, max: 20 })
+    .withMessage('El usuario debe tener entre 3 y 20 caracteres')
+    .matches(/^[a-zA-Z0-9_]+$/)
+    .withMessage('El usuario solo puede contener letras, números y guiones bajos'),
   body('email')
     .optional()
     .isEmail()
     .normalizeEmail()
-    .withMessage('Debe ser un email válido')
+    .withMessage('Debe ser un email válido'),
+  body('departamento')
+    .optional()
+    .isIn(['administracion', 'compras', 'informatica', 'gerencia', 'rrhh', 'produccion', 'softgel', 'calidad', 'laboratorio', 'mantenimiento', 'oficina_tecnica', 'logistica'])
+    .withMessage('Departamento no válido'),
+  body('rol')
+    .optional()
+    .isIn(['administrador', 'director', 'usuario'])
+    .withMessage('Rol no válido')
 ];
 
 const changePasswordValidation = [
@@ -59,8 +64,20 @@ router.get('/profile', authMiddleware, async (req, res) => {
 // PUT /api/users/profile - Actualizar perfil del usuario autenticado
 router.put('/profile', authMiddleware, updateProfileValidation, handleValidationErrors, async (req, res, next) => {
   try {
-    const { firstName, lastName, email } = req.body;
+    const { usuario, email, departamento, rol } = req.body;
     const user = req.user;
+
+    // Si se está cambiando el usuario, verificar que no exista
+    if (usuario && usuario !== user.usuario) {
+      const existingUser = await User.findOne({ usuario, _id: { $ne: user._id } });
+      if (existingUser) {
+        return res.status(409).json({
+          error: 'Usuario ya existe',
+          message: 'Ya existe una cuenta con este usuario'
+        });
+      }
+      user.usuario = usuario;
+    }
 
     // Si se está cambiando el email, verificar que no exista
     if (email && email !== user.email) {
@@ -76,8 +93,8 @@ router.put('/profile', authMiddleware, updateProfileValidation, handleValidation
     }
 
     // Actualizar campos si se proporcionan
-    if (firstName) user.firstName = firstName;
-    if (lastName) user.lastName = lastName;
+    if (departamento) user.departamento = departamento;
+    if (rol) user.rol = rol;
 
     await user.save();
 
@@ -186,8 +203,8 @@ router.get('/', authMiddleware, adminMiddleware, async (req, res, next) => {
     if (req.query.search) {
       filter.$or = [
         { email: { $regex: req.query.search, $options: 'i' } },
-        { firstName: { $regex: req.query.search, $options: 'i' } },
-        { lastName: { $regex: req.query.search, $options: 'i' } }
+        { usuario: { $regex: req.query.search, $options: 'i' } },
+        { departamento: { $regex: req.query.search, $options: 'i' } }
       ];
     }
 
