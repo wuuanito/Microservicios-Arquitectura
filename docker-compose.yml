@@ -1,24 +1,21 @@
 services:
   api-gateway:
     image: ghcr.io/wuuanito/api-gateway:${API_GATEWAY_TAG:-latest}
-    container_name: api-gateway
     ports: ["3000:3000"]
     depends_on: [mongo, auth-service]
     restart: unless-stopped
 
   auth-service:
-    image: ghcr.io/wuuanito/auth-service:${AUTH_TAG:-latest}
-    container_name: auth-service
+    image: ghcr.io/wuuanito/auth-service-microservice:${AUTH_TAG:-latest}
     ports: ["3001:3001"]
     depends_on: [mongo]
     restart: unless-stopped
 
   mongo:
     image: mongo:6.0
-    container_name: mongodb
     ports: ["27017:27017"]
-    volumes:
-      - mongo-data:/data/db
+    volumes: ["mongo-data:/data/db"]
+    restart: unless-stopped
 
 volumes:
   mongo-data:
