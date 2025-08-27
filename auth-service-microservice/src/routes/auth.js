@@ -36,10 +36,6 @@ const registerValidation = [
     .withMessage('La contraseña debe tener al menos 6 caracteres')
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
     .withMessage('La contraseña debe contener al menos una mayúscula, una minúscula y un número'),
-  body('email')
-    .isEmail()
-    .normalizeEmail()
-    .withMessage('Debe ser un email válido'),
   body('departamento')
     .isIn(['administracion', 'compras', 'informatica', 'gerencia', 'rrhh', 'produccion', 'softgel', 'calidad', 'laboratorio', 'mantenimiento', 'oficina_tecnica', 'logistica'])
     .withMessage('Departamento no válido'),
