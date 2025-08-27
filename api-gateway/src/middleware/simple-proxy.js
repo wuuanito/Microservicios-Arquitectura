@@ -3,7 +3,19 @@ const { URL } = require('url');
 
 function createSimpleProxy(routeConfig) {
   return (req, res, next) => {
-    const targetUrl = new URL(req.originalUrl.replace('/api/auth/v1', '/api/auth'), routeConfig.target);
+    let rewrittenPath = req.originalUrl;
+    
+    // Apply path rewriting if configured
+    if (routeConfig.pathRewrite) {
+      Object.keys(routeConfig.pathRewrite).forEach(pattern => {
+        const regex = new RegExp(pattern);
+        if (regex.test(req.originalUrl)) {
+          rewrittenPath = req.originalUrl.replace(regex, routeConfig.pathRewrite[pattern]);
+        }
+      });
+    }
+    
+    const targetUrl = new URL(rewrittenPath, routeConfig.target);
     
     const options = {
       hostname: targetUrl.hostname,
@@ -19,7 +31,7 @@ function createSimpleProxy(routeConfig) {
       }
     };
 
-    console.log(`Simple Proxy: ${req.method} ${req.originalUrl} -> ${routeConfig.target}${targetUrl.pathname}`);
+    console.log(`Simple Proxy: ${req.method} ${req.originalUrl} -> ${targetUrl.href}`);
 
     const proxyReq = http.request(options, (proxyRes) => {
       // Copy status code
