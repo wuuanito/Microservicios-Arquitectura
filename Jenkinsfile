@@ -36,8 +36,8 @@ pipeline {
 
           services.each { s ->
             echo "Construyendo y publicando ${s.name}"
-            sh """
-            docker build -t ${s.image}:${env.BUILD_NUMBER} -t ${s.image}:latest -f ${s.path}/Dockerfile ${s.path}
+            bat """
+            docker build -t ${s.image}:${env.BUILD_NUMBER} -t ${s.image}:latest -f ${s.path}\Dockerfile ${s.path}
             docker push ${s.image}:${env.BUILD_NUMBER}
             docker push ${s.image}:latest
             """
