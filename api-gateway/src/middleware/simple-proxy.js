@@ -3,6 +3,9 @@ const { URL } = require('url');
 
 function createSimpleProxy(routeConfig) {
   return (req, res, next) => {
+    console.log('=== Proxy middleware started ===');
+    console.log('Method:', req.method, 'URL:', req.originalUrl);
+    console.log('Body:', req.body);
     let rewrittenPath = req.originalUrl;
     
     // Apply path rewriting if configured
@@ -31,9 +34,20 @@ function createSimpleProxy(routeConfig) {
       }
     };
 
+    // Ensure Content-Type is preserved for POST requests
+    if (req.body && ['POST', 'PUT', 'PATCH'].includes(req.method)) {
+      const bodyString = JSON.stringify(req.body);
+      options.headers['content-type'] = 'application/json';
+      options.headers['content-length'] = Buffer.byteLength(bodyString);
+    }
+
     console.log(`Simple Proxy: ${req.method} ${req.originalUrl} -> ${targetUrl.href}`);
+    console.log(`Proxy headers:`, options.headers);
+    console.log(`Request body:`, req.body);
 
     const proxyReq = http.request(options, (proxyRes) => {
+      console.log(`Proxy response status: ${proxyRes.statusCode}`);
+      console.log(`Proxy response headers:`, proxyRes.headers);
       // Copy status code
       res.status(proxyRes.statusCode);
       
@@ -56,8 +70,8 @@ function createSimpleProxy(routeConfig) {
       }
     });
 
-    proxyReq.setTimeout(30000, () => {
-      console.error('Proxy timeout');
+    proxyReq.setTimeout(5000, () => {
+      console.error('Proxy timeout - request did not complete within 5 seconds');
       if (!res.headersSent) {
         res.status(504).json({
           error: 'Gateway timeout'
@@ -68,9 +82,12 @@ function createSimpleProxy(routeConfig) {
 
     // Forward request body
     if (req.body && ['POST', 'PUT', 'PATCH'].includes(req.method)) {
-      proxyReq.write(JSON.stringify(req.body));
+      const bodyString = JSON.stringify(req.body);
+      console.log('Writing body to proxy request:', bodyString);
+      proxyReq.write(bodyString);
     }
     
+    console.log('Ending proxy request');
     proxyReq.end();
   };
 }

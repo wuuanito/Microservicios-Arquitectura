@@ -7,7 +7,7 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 const routeConfig = require('./config/routes');
-const proxyMiddleware = require('./middleware/simple-proxy');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const { errorHandler } = require('./middleware/errorHandler');
 const healthCheck = require('./routes/health');
 const logger = require('./utils/logger');
@@ -46,7 +46,30 @@ app.use('/health', healthCheck);
 
 // Configurar rutas de proxy para microservicios
 routeConfig.routes.forEach(route => {
-  app.use(route.path, proxyMiddleware(route));
+  const proxyOptions = {
+    target: route.target,
+    changeOrigin: route.changeOrigin || true,
+    timeout: 10000,
+    proxyTimeout: 10000,
+    pathRewrite: route.pathRewrite || {},
+    onError: (err, req, res) => {
+      logger.error(`Proxy error for ${req.originalUrl}: ${err.message}`);
+      if (!res.headersSent) {
+        res.status(502).json({
+          error: 'Bad Gateway',
+          message: err.message
+        });
+      }
+    },
+    onProxyReq: (proxyReq, req, res) => {
+      logger.info(`Proxying ${req.method} ${req.originalUrl} -> ${route.target}${proxyReq.path}`);
+    },
+    onProxyRes: (proxyRes, req, res) => {
+      logger.info(`Proxy response: ${proxyRes.statusCode} for ${req.originalUrl}`);
+    }
+  };
+  
+  app.use(route.path, createProxyMiddleware(proxyOptions));
 });
 
 // Middleware de manejo de errores

@@ -17,10 +17,7 @@ const authLimiter = rateLimit({
     error: 'Demasiados intentos de autenticación. Intenta de nuevo en 15 minutos.'
   },
   standardHeaders: true,
-  legacyHeaders: false,
-  validate: {
-    xForwardedForHeader: false
-  }
+  legacyHeaders: false
 });
 
 // Validaciones

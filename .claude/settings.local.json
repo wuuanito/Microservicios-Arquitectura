@@ -11,7 +11,9 @@
       "Bash(node:*)",
       "Bash(timeout:*)",
       "Bash(docker-compose restart:*)",
-      "Bash(docker compose:*)"
+      "Bash(docker compose:*)",
+      "Bash(docker exec:*)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []
