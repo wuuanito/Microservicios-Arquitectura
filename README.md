@@ -108,6 +108,7 @@ JWT_SECRET=tu-clave-secreta-muy-segura
 JWT_REFRESH_SECRET=tu-clave-refresh-muy-segura
 MONGODB_URI=mongodb://mongo:27017/auth
 NODE_ENV=development
+# Pipeline actualizado para compatibilidad cross-platform
 ```
 
 ### 3. Ejecutar con Docker Compose
