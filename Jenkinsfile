@@ -99,7 +99,6 @@ pipeline {
         }
       }
     }
-
     stage('Disparar deploy(s)') {
       when { expression { return env.CHANGED_SERVICES?.trim() } }
       agent none
