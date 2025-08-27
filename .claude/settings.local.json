@@ -10,7 +10,8 @@
       "Bash(docker run:*)",
       "Bash(node:*)",
       "Bash(timeout:*)",
-      "Bash(docker-compose restart:*)"
+      "Bash(docker-compose restart:*)",
+      "Bash(docker compose:*)"
     ],
     "deny": [],
     "ask": []
