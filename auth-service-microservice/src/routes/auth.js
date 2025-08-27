@@ -18,6 +18,9 @@ const authLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  validate: {
+    xForwardedForHeader: false
+  }
 });
 
 // Validaciones
@@ -38,10 +41,10 @@ const registerValidation = [
     .normalizeEmail()
     .withMessage('Debe ser un email válido'),
   body('departamento')
-    .isIn(['Recursos Humanos', 'Tecnología', 'Ventas', 'Marketing', 'Finanzas', 'Operaciones', 'Administración'])
+    .isIn(['administracion', 'compras', 'informatica', 'gerencia', 'rrhh', 'produccion', 'softgel', 'calidad', 'laboratorio', 'mantenimiento', 'oficina_tecnica', 'logistica'])
     .withMessage('Departamento no válido'),
   body('rol')
-    .isIn(['usuario', 'administrador', 'supervisor', 'gerente'])
+    .isIn(['administrador', 'director', 'usuario'])
     .withMessage('Rol no válido')
 ];
 

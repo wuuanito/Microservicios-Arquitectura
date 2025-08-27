@@ -29,14 +29,18 @@ const userSchema = new mongoose.Schema({
   departamento: {
     type: String,
     required: [true, 'El departamento es requerido'],
-    trim: true,
-    enum: ['Recursos Humanos', 'Tecnología', 'Ventas', 'Marketing', 'Finanzas', 'Operaciones', 'Administración'],
-    default: 'Administración'
+    enum: {
+      values: ['administracion', 'compras', 'informatica', 'gerencia', 'rrhh', 'produccion', 'softgel', 'calidad', 'laboratorio', 'mantenimiento', 'oficina_tecnica', 'logistica'],
+      message: 'Departamento no válido'
+    }
   },
   rol: {
     type: String,
     required: [true, 'El rol es requerido'],
-    enum: ['usuario', 'administrador', 'supervisor', 'gerente'],
+    enum: {
+      values: ['administrador', 'director', 'usuario'],
+      message: 'Rol no válido'
+    },
     default: 'usuario'
   },
   isActive: {

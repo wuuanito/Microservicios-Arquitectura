@@ -25,6 +25,9 @@ const limiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  validate: {
+    xForwardedForHeader: false
+  }
 });
 
 // Middleware
