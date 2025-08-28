@@ -17,7 +17,7 @@ pipeline {
       }
     }
 
-    stage('Build & Push TODOS (sin cache)') {
+    stage('Build & Push Services') {
       steps {
         script {
           def services = [
@@ -39,16 +39,49 @@ pipeline {
       }
     }
 
-    stage('Deploy to Remote Server') {
+    stage('Deploy Services') {
       steps {
         script {
-          // Desplegar directamente en el servidor remoto
+          // Desplegar directamente en el servidor local donde corre Jenkins
           withCredentials([usernamePassword(credentialsId: 'REGISTRY_CREDS', usernameVariable: 'REG_USER', passwordVariable: 'REG_PWD')]){
             bat """
-            REM Conectar al servidor remoto y actualizar
-            ssh jenkins@192.168.11.7 "cd /opt/microservicios-arquitectura && docker logout ghcr.io 2>/dev/null || true && echo %REG_PWD% | docker login ghcr.io -u %REG_USER% --password-stdin && docker compose -p microservicios-arquitectura down --remove-orphans && docker compose -p microservicios-arquitectura pull && docker compose -p microservicios-arquitectura up -d --force-recreate --remove-orphans"
+            REM Navegar al directorio del proyecto
+            cd /d C:\opt\microservicios-arquitectura
+            
+            REM Login al registry
+            docker logout ghcr.io 2>nul || echo "Already logged out"
+            echo %REG_PWD% | docker login ghcr.io -u %REG_USER% --password-stdin
+            
+            REM Detener servicios actuales
+            docker compose -p microservicios-arquitectura down --remove-orphans
+            
+            REM Descargar últimas imágenes
+            docker compose -p microservicios-arquitectura pull
+            
+            REM Iniciar servicios actualizados
+            docker compose -p microservicios-arquitectura up -d --force-recreate --remove-orphans
             """
           }
+        }
+      }
+    }
+
+    stage('Verify Deployment') {
+      steps {
+        script {
+          // Verificar que los servicios estén funcionando
+          bat """
+            REM Esperar un momento para que los servicios se inicien
+            timeout /t 30 /nobreak
+            
+            REM Verificar health checks
+            curl -f http://localhost:6000/health || echo "API Gateway health check failed"
+            curl -f http://localhost:6001/health || echo "Auth Service health check failed"
+            curl -f http://localhost:6003/health || echo "WebSocket Server health check failed"
+            
+            REM Verificar estado de contenedores locales
+            docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+          """
         }
       }
     }
@@ -64,13 +97,9 @@ pipeline {
           
           // Notificar al WebSocket server sobre el deployment exitoso
           bat """
-            curl -X POST http://192.168.11.7:6003/notify-update ^
+            curl -X POST http://localhost:6003/notify-update ^
               -H "Content-Type: application/json" ^
-              -d "{
-                \"version\": \"${version}\",
-                \"project\": \"${project}\",
-                \"timestamp\": ${timestamp}
-              }"
+              -d "{\"version\": \"${version}\", \"project\": \"${project}\", \"timestamp\": ${timestamp}}"
           """
           echo "Notificación enviada al WebSocket server: ${version}"
         } catch (Exception e) {
