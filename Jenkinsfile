@@ -46,7 +46,7 @@ pipeline {
           withCredentials([usernamePassword(credentialsId: 'REGISTRY_CREDS', usernameVariable: 'REG_USER', passwordVariable: 'REG_PWD')]){
             bat """
             REM Navegar al directorio del proyecto
-            cd /d C:\opt\microservicios-arquitectura
+             cd /d C:\\opt\\microservicios-arquitectura
             
             REM Login al registry
             docker logout ghcr.io 2>nul || echo "Already logged out"
