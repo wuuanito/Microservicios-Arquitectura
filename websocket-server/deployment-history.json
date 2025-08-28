@@ -39,6 +39,16 @@
       "deployUrl": "http://192.168.11.7:8080",
       "timestamp": "2025-08-28T07:40:00.000Z",
       "buildNumber": 1
+    },
+    {
+      "version": "v1.2.3",
+      "commit": "microservices-update",
+      "fullCommit": "microservices-update",
+      "project": "microservicios-arquitectura",
+      "status": "success",
+      "deployUrl": "http://192.168.11.7:8080",
+      "timestamp": "2025-08-28T07:40:00.000Z",
+      "buildNumber": 1
     }
   ],
   "latestVersion": {
