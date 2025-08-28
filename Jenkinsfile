@@ -39,8 +39,18 @@ pipeline {
       }
     }
 
-    stage('Disparar despliegue TOTAL') {
-      steps { build job: 'arquitectura-deploy', wait: false }
+    stage('Deploy to Remote Server') {
+      steps {
+        script {
+          // Desplegar directamente en el servidor remoto
+          withCredentials([usernamePassword(credentialsId: 'REGISTRY_CREDS', usernameVariable: 'REG_USER', passwordVariable: 'REG_PWD')]){
+            bat """
+            REM Conectar al servidor remoto y actualizar
+            ssh jenkins@192.168.11.7 "cd /opt/microservicios-arquitectura && docker logout ghcr.io 2>/dev/null || true && echo %REG_PWD% | docker login ghcr.io -u %REG_USER% --password-stdin && docker compose -p microservicios-arquitectura down --remove-orphans && docker compose -p microservicios-arquitectura pull && docker compose -p microservicios-arquitectura up -d --force-recreate --remove-orphans"
+            """
+          }
+        }
+      }
     }
   }
 

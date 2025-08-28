@@ -49,16 +49,66 @@
       "deployUrl": "http://192.168.11.7:8080",
       "timestamp": "2025-08-28T07:40:00.000Z",
       "buildNumber": 1
+    },
+    {
+      "version": "Build #test-789",
+      "commit": "ghi789",
+      "fullCommit": "ghi789",
+      "project": "react-actualizable",
+      "status": "success",
+      "deployUrl": "http://192.168.11.7:2000",
+      "timestamp": "2024-01-17T11:00:00.000Z",
+      "buildNumber": 0
+    },
+    {
+      "version": "Build #test-789",
+      "commit": "ghi789",
+      "fullCommit": "ghi789",
+      "project": "react-actualizable",
+      "status": "success",
+      "deployUrl": "http://192.168.11.7:2000",
+      "timestamp": "2024-01-17T11:00:00.000Z",
+      "buildNumber": 0
+    },
+    {
+      "version": "Build #test-789",
+      "commit": "ghi789",
+      "fullCommit": "ghi789",
+      "project": "react-actualizable",
+      "status": "success",
+      "deployUrl": "http://192.168.11.7:2000",
+      "timestamp": "2024-01-17T11:00:00.000Z",
+      "buildNumber": 0
+    },
+    {
+      "version": "Build #test-789",
+      "commit": "ghi789",
+      "fullCommit": "ghi789",
+      "project": "react-actualizable",
+      "status": "success",
+      "deployUrl": "http://192.168.11.7:2000",
+      "timestamp": "2024-01-17T11:00:00.000Z",
+      "buildNumber": 0
+    },
+    {
+      "version": "Build #test-890",
+      "commit": "abc890",
+      "fullCommit": "abc890",
+      "project": "react-actualizable",
+      "status": "success",
+      "deployUrl": "http://localhost:3001",
+      "timestamp": "2024-01-17T11:30:00.000Z",
+      "buildNumber": 0
     }
   ],
   "latestVersion": {
-    "version": "v1.2.3",
-    "commit": "microservices-update",
-    "fullCommit": "microservices-update",
-    "project": "microservicios-arquitectura",
+    "version": "Build #test-890",
+    "commit": "abc890",
+    "fullCommit": "abc890",
+    "project": "react-actualizable",
     "status": "success",
-    "deployUrl": "http://192.168.11.7:8080",
-    "timestamp": "2025-08-28T07:40:00.000Z",
-    "buildNumber": 1
+    "deployUrl": "http://localhost:3001",
+    "timestamp": "2024-01-17T11:30:00.000Z",
+    "buildNumber": 0
   }
 }
