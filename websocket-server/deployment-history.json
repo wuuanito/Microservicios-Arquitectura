@@ -1,0 +1,54 @@
+{
+  "deploymentHistory": [
+    {
+      "version": "Build #999",
+      "commit": "test1234",
+      "fullCommit": "test123456789",
+      "project": "react-actualizable",
+      "status": "success",
+      "deployUrl": "http://192.168.11.7:2000",
+      "timestamp": "2024-01-01T12:00:00.000Z",
+      "buildNumber": 999
+    },
+    {
+      "version": "Build #TEST-001",
+      "commit": "abc123te",
+      "fullCommit": "abc123test",
+      "project": "react-actualizable",
+      "status": "success",
+      "deployUrl": "http://192.168.11.7:2000",
+      "timestamp": "2025-01-28T09:34:00.000Z",
+      "buildNumber": 0
+    },
+    {
+      "version": "Build #TEST-001",
+      "commit": "abc123te",
+      "fullCommit": "abc123test",
+      "project": "react-actualizable",
+      "status": "success",
+      "deployUrl": "http://192.168.11.7:2000",
+      "timestamp": "2025-01-28T09:34:00.000Z",
+      "buildNumber": 0
+    },
+    {
+      "version": "v1.2.3",
+      "commit": "microservices-update",
+      "fullCommit": "microservices-update",
+      "project": "microservicios-arquitectura",
+      "status": "success",
+      "deployUrl": "http://192.168.11.7:8080",
+      "timestamp": "2025-08-28T07:40:00.000Z",
+      "buildNumber": 1
+    }
+  ],
+  "latestVersion": {
+    "version": "v1.2.3",
+    "commit": "microservices-update",
+    "fullCommit": "microservices-update",
+    "project": "microservicios-arquitectura",
+    "status": "success",
+    "deployUrl": "http://192.168.11.7:8080",
+    "timestamp": "2025-08-28T07:40:00.000Z",
+    "buildNumber": 1
+  }
+}

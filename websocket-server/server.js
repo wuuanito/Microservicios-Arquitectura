@@ -157,6 +157,68 @@ app.post('/notify-deployment', (req, res) => {
     }
 });
 
+// Endpoint para notificaciones de microservicios (usado por arquitectura-microservicios)
+app.post('/notify-update', (req, res) => {
+    try {
+        console.log('🔄 Notificación de actualización recibida de Jenkins (Microservicios):');
+        console.log('Headers:', req.headers);
+        console.log('Body:', req.body);
+        
+        const {
+            version,
+            project = 'microservicios-arquitectura',
+            timestamp = Date.now()
+        } = req.body;
+        
+        // Crear objeto de versión para microservicios
+        const versionInfo = {
+            version: version || `Update #${Date.now()}`,
+            commit: 'microservices-update',
+            fullCommit: 'microservices-update',
+            project,
+            status: 'success',
+            deployUrl: 'http://192.168.11.7:8080',
+            timestamp: new Date(timestamp).toISOString(),
+            buildNumber: parseInt(version?.replace('v', '')) || Date.now()
+        };
+        
+        // Actualizar versión actual
+        latestVersion = versionInfo;
+        
+        // Agregar al historial
+        deploymentHistory.push(versionInfo);
+        
+        // Mantener solo los últimos 50 deployments
+        if (deploymentHistory.length > 50) {
+            deploymentHistory = deploymentHistory.slice(-50);
+        }
+        
+        // Guardar en archivo
+        saveHistoryToFile();
+        
+        // Notificar a todos los clientes conectados
+        console.log(`📢 Enviando notificación de microservicios a ${connectedClients} clientes`);
+        io.emit('app-updated', versionInfo);
+        
+        // Enviar historial actualizado
+        io.emit('deployment-history', deploymentHistory.slice(-10));
+        
+        res.json({
+            success: true,
+            message: 'Notificación de microservicios enviada correctamente',
+            clientsNotified: connectedClients,
+            versionInfo
+        });
+        
+    } catch (error) {
+        console.error('❌ Error procesando notificación de microservicios:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
 // Endpoint para obtener la última versión
 app.get('/latest-version', (req, res) => {
     res.json({
