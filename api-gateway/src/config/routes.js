@@ -63,14 +63,15 @@ module.exports = {
     },
     {
       path: '/api/websocket/v1',
-      target: process.env.WEBSOCKET_SERVICE_URL || 'http://websocket-server:3001',
+      target: process.env.WEBSOCKET_SERVICE_URL || 'http://192.168.11.7:6003',
       description: 'Servicio de WebSocket y notificaciones en tiempo real',
       changeOrigin: true,
       pathRewrite: {
         '^/api/websocket/v1': ''
       },
       timeout: 60000,
-      retries: 3
+      retries: 3,
+      ws: true // Habilitar soporte para WebSockets
       // healthCheck: '/health' // Disabled temporarily
     }
   ],
