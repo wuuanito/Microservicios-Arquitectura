@@ -4,10 +4,10 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 require('dotenv').config();
 
 const routeConfig = require('./config/routes');
-const axios = require('axios');
 const { errorHandler } = require('./middleware/errorHandler');
 const healthCheck = require('./routes/health');
 const logger = require('./utils/logger');
@@ -46,66 +46,30 @@ app.use('/health', healthCheck);
 
 // Configurar rutas de proxy para microservicios
 routeConfig.routes.forEach(route => {
-  app.use(route.path, async (req, res, next) => {
-    try {
-      // Apply path rewriting
-      let targetPath = req.originalUrl;
-      if (route.pathRewrite) {
-        Object.keys(route.pathRewrite).forEach(pattern => {
-          const regex = new RegExp(pattern);
-          if (regex.test(req.originalUrl)) {
-            targetPath = req.originalUrl.replace(regex, route.pathRewrite[pattern]);
-          }
-        });
-      }
-
-      const targetUrl = route.target + targetPath;
-      logger.info(`Proxying ${req.method} ${req.originalUrl} -> ${targetUrl}`);
-
-      // Make request using axios
-      const axiosConfig = {
-        method: req.method,
-        url: targetUrl,
-        headers: {
-          'content-type': req.headers['content-type'],
-          'user-agent': req.headers['user-agent']
-        },
-        timeout: 10000
-      };
-
-      // Add body for POST/PUT/PATCH requests
-      if (req.body && ['POST', 'PUT', 'PATCH'].includes(req.method)) {
-        axiosConfig.data = req.body;
-      }
-
-      const response = await axios(axiosConfig);
-      
-      logger.info(`Proxy response: ${response.status} for ${req.originalUrl}`);
-      
-      // Send response
-      res.status(response.status).json(response.data);
-      
-    } catch (error) {
-      logger.error(`Proxy error for ${req.originalUrl}:`, error.message);
-      
-      if (error.response) {
-        // The request was made and the server responded with a status code outside 2xx
-        res.status(error.response.status).json(error.response.data);
-      } else if (error.code === 'ECONNABORTED') {
-        // Request timeout
-        res.status(504).json({
-          error: 'Gateway Timeout',
-          message: 'Request timed out'
-        });
-      } else {
-        // Something else happened
+  const proxyOptions = {
+    target: route.target,
+    changeOrigin: route.changeOrigin || true,
+    pathRewrite: route.pathRewrite || {},
+    timeout: route.timeout || 10000,
+    ws: true, // Habilitar soporte para WebSockets
+    onProxyReq: (proxyReq, req, res) => {
+      logger.info(`Proxying ${req.method} ${req.originalUrl} -> ${route.target}`);
+    },
+    onProxyRes: (proxyRes, req, res) => {
+      logger.info(`Proxy response: ${proxyRes.statusCode} for ${req.originalUrl}`);
+    },
+    onError: (err, req, res) => {
+      logger.error(`Proxy error for ${req.originalUrl}:`, err.message);
+      if (!res.headersSent) {
         res.status(502).json({
           error: 'Bad Gateway',
-          message: error.message
+          message: err.message
         });
       }
     }
-  });
+  };
+
+  app.use(route.path, createProxyMiddleware(proxyOptions));
 });
 
 // Middleware de manejo de errores
@@ -135,8 +99,12 @@ app.use('*', (req, res) => {
   });
 });
 
+// Crear servidor HTTP para soportar WebSockets
+const http = require('http');
+const server = http.createServer(app);
+
 // Iniciar servidor
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   logger.info(`🚀 API Gateway iniciado en puerto ${PORT}`);
   logger.info(`📋 Rutas configuradas: ${routeConfig.routes.length}`);
   routeConfig.routes.forEach(route => {
