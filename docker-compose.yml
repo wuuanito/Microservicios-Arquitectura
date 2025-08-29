@@ -1,7 +1,7 @@
 services:
   api-gateway:
     image: ghcr.io/wuuanito/api-gateway:${API_GATEWAY_TAG:-latest}
-    ports: ["6000:3000"]
+    ports: ["6000:8000"]
     depends_on: [mongo, auth-service]
     restart: unless-stopped
     environment:
