@@ -7,7 +7,7 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 const routeConfig = require('./config/routes');
-const axios = require('axios');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const { errorHandler } = require('./middleware/errorHandler');
 const healthCheck = require('./routes/health');
 const logger = require('./utils/logger');
@@ -46,66 +46,30 @@ app.use('/health', healthCheck);
 
 // Configurar rutas de proxy para microservicios
 routeConfig.routes.forEach(route => {
-  app.use(route.path, async (req, res, next) => {
-    try {
-      // Apply path rewriting
-      let targetPath = req.originalUrl;
-      if (route.pathRewrite) {
-        Object.keys(route.pathRewrite).forEach(pattern => {
-          const regex = new RegExp(pattern);
-          if (regex.test(req.originalUrl)) {
-            targetPath = req.originalUrl.replace(regex, route.pathRewrite[pattern]);
-          }
-        });
-      }
-
-      const targetUrl = route.target + targetPath;
-      logger.info(`Proxying ${req.method} ${req.originalUrl} -> ${targetUrl}`);
-
-      // Make request using axios
-      const axiosConfig = {
-        method: req.method,
-        url: targetUrl,
-        headers: {
-          'content-type': req.headers['content-type'],
-          'user-agent': req.headers['user-agent']
-        },
-        timeout: 10000
-      };
-
-      // Add body for POST/PUT/PATCH requests
-      if (req.body && ['POST', 'PUT', 'PATCH'].includes(req.method)) {
-        axiosConfig.data = req.body;
-      }
-
-      const response = await axios(axiosConfig);
-      
-      logger.info(`Proxy response: ${response.status} for ${req.originalUrl}`);
-      
-      // Send response
-      res.status(response.status).json(response.data);
-      
-    } catch (error) {
-      logger.error(`Proxy error for ${req.originalUrl}:`, error.message);
-      
-      if (error.response) {
-        // The request was made and the server responded with a status code outside 2xx
-        res.status(error.response.status).json(error.response.data);
-      } else if (error.code === 'ECONNABORTED') {
-        // Request timeout
-        res.status(504).json({
-          error: 'Gateway Timeout',
-          message: 'Request timed out'
-        });
-      } else {
-        // Something else happened
+  const proxyOptions = {
+    target: route.target,
+    changeOrigin: route.changeOrigin || true,
+    timeout: route.timeout || 60000,
+    ws: route.ws || false, // Habilitar WebSocket si está configurado
+    pathRewrite: route.pathRewrite || {},
+    onError: (err, req, res) => {
+      logger.error(`Proxy error for ${req.originalUrl}:`, err.message);
+      if (!res.headersSent) {
         res.status(502).json({
           error: 'Bad Gateway',
-          message: error.message
+          message: 'Error en el proxy del servicio'
         });
       }
+    },
+    onProxyReq: (proxyReq, req, res) => {
+      logger.info(`Proxying ${req.method} ${req.originalUrl} -> ${route.target}`);
+    },
+    onProxyRes: (proxyRes, req, res) => {
+      logger.info(`Proxy response: ${proxyRes.statusCode} for ${req.originalUrl}`);
     }
-  });
+  };
+
+  app.use(route.path, createProxyMiddleware(proxyOptions));
 });
 
 // Middleware de manejo de errores
@@ -135,12 +99,42 @@ app.use('*', (req, res) => {
   });
 });
 
+// Crear servidor HTTP para soportar WebSockets
+const http = require('http');
+const server = http.createServer(app);
+
+// Configurar upgrade para WebSockets
+server.on('upgrade', (request, socket, head) => {
+  const pathname = new URL(request.url, `http://${request.headers.host}`).pathname;
+  
+  // Buscar ruta que coincida con WebSocket
+  const wsRoute = routeConfig.routes.find(route => 
+    route.ws && pathname.startsWith(route.path)
+  );
+  
+  if (wsRoute) {
+    logger.info(`WebSocket upgrade: ${pathname} -> ${wsRoute.target}`);
+    
+    // Crear proxy para WebSocket
+    const wsProxy = createProxyMiddleware({
+      target: wsRoute.target,
+      changeOrigin: true,
+      ws: true,
+      pathRewrite: wsRoute.pathRewrite || {}
+    });
+    
+    wsProxy.upgrade(request, socket, head);
+  } else {
+    socket.destroy();
+  }
+});
+
 // Iniciar servidor
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   logger.info(`🚀 API Gateway iniciado en puerto ${PORT}`);
   logger.info(`📋 Rutas configuradas: ${routeConfig.routes.length}`);
   routeConfig.routes.forEach(route => {
-    logger.info(`   ${route.path} -> ${route.target}`);
+    logger.info(`   ${route.path} -> ${route.target} ${route.ws ? '(WebSocket)' : ''}`);
   });
 });
 
