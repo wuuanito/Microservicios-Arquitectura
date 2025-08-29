@@ -99,16 +99,26 @@
       "deployUrl": "http://localhost:3001",
       "timestamp": "2024-01-17T11:30:00.000Z",
       "buildNumber": 0
+    },
+    {
+      "version": "Build #test-123",
+      "commit": "unknown",
+      "fullCommit": "unknown",
+      "project": "react-actualizable",
+      "status": "success",
+      "deployUrl": "http://192.168.11.7:2000",
+      "timestamp": "2025-01-28T10:30:00Z",
+      "buildNumber": 0
     }
   ],
   "latestVersion": {
-    "version": "Build #test-890",
-    "commit": "abc890",
-    "fullCommit": "abc890",
+    "version": "Build #test-123",
+    "commit": "unknown",
+    "fullCommit": "unknown",
     "project": "react-actualizable",
     "status": "success",
-    "deployUrl": "http://localhost:3001",
-    "timestamp": "2024-01-17T11:30:00.000Z",
+    "deployUrl": "http://192.168.11.7:2000",
+    "timestamp": "2025-01-28T10:30:00Z",
     "buildNumber": 0
   }
 }
