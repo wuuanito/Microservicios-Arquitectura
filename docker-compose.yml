@@ -1,12 +1,12 @@
 services:
   api-gateway:
     image: ghcr.io/wuuanito/api-gateway:${API_GATEWAY_TAG:-latest}
-    ports: ["8000:8000"]
+    ports: ["3010:3000"]
     depends_on: [mongo, auth-service]
     restart: unless-stopped
     environment:
-      - AUTH_SERVICE_URL=http://192.168.11.7:6001
-      - WEBSOCKET_SERVICE_URL=http://192.168.11.7:6003
+      - AUTH_SERVICE_URL=http://auth-service:3001
+      - WEBSOCKET_SERVICE_URL=http://websocket-server:3001
       - NODE_ENV=production
 
   auth-service:
@@ -20,11 +20,11 @@ services:
 
   websocket-server:
     image: ghcr.io/wuuanito/websocket-server:${WEBSOCKET_TAG:-latest}
-    ports: ["6003:6003"]
+    ports: ["6003:3001"]
     restart: unless-stopped
     environment:
       - NODE_ENV=production
-      - PORT=6003
+      - PORT=3001
 
   mongo:
     image: mongo:6.0

@@ -9,16 +9,16 @@ const { createError } = require('../utils/errors');
 
 const router = express.Router();
 
-// Rate limiting específico para auth - DESACTIVADO
-// const authLimiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutos
-//   max: 5, // máximo 5 intentos de login por IP
-//   message: {
-//     error: 'Demasiados intentos de autenticación. Intenta de nuevo en 15 minutos.'
-//   },
-//   standardHeaders: true,
-//   legacyHeaders: false
-// });
+// Rate limiting específico para auth
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 5, // máximo 5 intentos de login por IP
+  message: {
+    error: 'Demasiados intentos de autenticación. Intenta de nuevo en 15 minutos.'
+  },
+  standardHeaders: true,
+  legacyHeaders: false
+});
 
 // Validaciones
 const registerValidation = [
@@ -146,7 +146,7 @@ router.post('/register', registerValidation, handleValidationErrors, async (req,
 });
 
 // POST /api/auth/login
-router.post('/login', loginValidation, handleValidationErrors, async (req, res, next) => {
+router.post('/login', authLimiter, loginValidation, handleValidationErrors, async (req, res, next) => {
   try {
     const { usuario, password } = req.body;
 

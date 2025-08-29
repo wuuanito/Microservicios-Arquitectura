@@ -60,24 +60,6 @@ module.exports = {
       timeout: 60000,
       retries: 3
       // healthCheck: '/health' // Disabled temporarily
-    },
-    {
-      path: '/ws',
-      target: process.env.WEBSOCKET_SERVICE_URL || 'http://192.168.11.7:6003',
-      description: 'Servicio de WebSocket para notificaciones en tiempo real',
-      changeOrigin: true,
-      ws: true, // Habilitar proxy de WebSocket
-      timeout: 60000,
-      retries: 3
-    },
-    {
-      path: '/socket.io',
-      target: process.env.WEBSOCKET_SERVICE_URL || 'http://192.168.11.7:6003',
-      description: 'Socket.IO para WebSocket',
-      changeOrigin: true,
-      ws: true,
-      timeout: 60000,
-      retries: 3
     }
   ],
   
