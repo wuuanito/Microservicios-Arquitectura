@@ -73,6 +73,15 @@ module.exports = {
       retries: 3,
       ws: true // Habilitar soporte para WebSockets
       // healthCheck: '/health' // Disabled temporarily
+    },
+    {
+      path: '/socket.io',
+      target: process.env.WEBSOCKET_SERVICE_URL || 'http://192.168.11.7:6003',
+      description: 'Socket.IO directo para conexiones WebSocket',
+      changeOrigin: true,
+      timeout: 60000,
+      retries: 3,
+      ws: true // Habilitar soporte para WebSockets
     }
   ],
   
